@@ -1,13 +1,12 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-​
-const jobSchema = new Schema({
-    Sittr: {
+const jobSchema = new mongoose.Schema({
+    sittr: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
-    Owner: {
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
@@ -37,5 +36,5 @@ const jobSchema = new Schema({
     comment: String
 });
 
-const Job = model("Job", jobSchema);
+const Job = mongoose.model("Job", jobSchema);
 module.exports = Job;

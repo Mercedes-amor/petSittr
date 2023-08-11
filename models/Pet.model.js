@@ -1,13 +1,13 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-const petSchema = new Schema({
+const petSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
     animalType: {
         type: String,
-        enum: ["Dog", "Cat"],
+        enum: ["dog", "cat"],
         required: true
     },
     race: {
@@ -15,18 +15,19 @@ const petSchema = new Schema({
     },
     size: {
         type: String,
-        enum: ["Small", "Medium", "Big"],
+        enum: ["small", "medium", "big"],
         required: true
     },
-    DateOfBirth: {
+    dateOfBirth: {
         type: Date,
     },
-    Owner: [{
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }],
+        ref: "User",
+        required: true
+    },
     comment: String
 });
 
-const Pet = model("Pet", petSchema);
+const Pet = mongoose.model("Pet", petSchema);
 module.exports = Pet;
