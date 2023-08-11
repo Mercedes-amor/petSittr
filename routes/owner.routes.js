@@ -57,10 +57,34 @@ router.post("/add-pet", async (req, res, next) => {
 
 // GET de "/owner/edit-pet/:petId" => Enseñar vista para editar mascota
 router.get ("/edit-pet/:petId", async (req, res, next) => {
+    let isDog = false
+    let isSmall = false
+    let isMedium = false
+    let isBig = false
+
     try {
         const petToEdit = await Pet.findById(req.params.petId)
+        if(petToEdit.animalType === "dog"){
+       //     console.log("DOGGY")
+            isDog = true
+        }else{
+             isDog = false
+        }
+        if(petToEdit.size === "small"){
+            isSmall = true
+             }else if(petToEdit.size === "medium"){
+                isMedium = true
+                 } else if(petToEdit.size === "big"){
+                    isBig = true
+                
+                     }
+
+
+        // console.log(petToEdit.dateOfBirth)
+
+        dateOfBirthForHTML = petToEdit.dateOfBirth.toISOString().split("T")[0]
         res.render("owner/editpet.hbs", {
-            petToEdit,
+            petToEdit, isDog, isSmall, isMedium, isBig,dateOfBirth: dateOfBirthForHTML
         })
     } catch (error) {
         next(error)
@@ -68,7 +92,7 @@ router.get ("/edit-pet/:petId", async (req, res, next) => {
 })
 
 
-// POST "/owner/edit-pet/:petId" => añade mascota a db
+// POST "/owner/edit-pet/:petId" => edita mascota en db
 router.post("/edit-pet/:petId", async (req, res, next) => {
     const { name, animalType, race, size, dateOfBirth, comment } = req.body
     // console.log(req.session.user._id)
@@ -81,15 +105,14 @@ router.post("/edit-pet/:petId", async (req, res, next) => {
     }
     try {
 
-        // await Pet.create({
-        //     name,
-        //     animalType,
-        //     race,
-        //     size,
-        //     dateOfBirth,
-        //     owner: req.session.user._id,
-        //     comment
-        // })
+        await Pet.findByIdAndUpdate(req.params.petId,{
+            name,
+            animalType,
+            race,
+            size,
+            dateOfBirth,
+            comment
+        })
         res.redirect("/owner/petlist")
     } catch (error) {
         next(error)
@@ -97,7 +120,13 @@ router.post("/edit-pet/:petId", async (req, res, next) => {
 })
 
 
+// GET "/owner/delete-pet/:petId" => Enseñar vista para añadir mascota
+router.get("/delete-pet/:petId", async(req, res, next) => {
 
+    await Pet.findByIdAndDelete(req.params.petId)
+
+    res.redirect("/owner/petlist")
+})
 
 
 
