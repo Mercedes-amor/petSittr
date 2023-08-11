@@ -1,0 +1,83 @@
+<div>
+
+  <h3>Edit your pets information</h3>
+
+  <form action="/owner/edit-pet/{{petToEdit._id}}" method="post">
+
+    <label for="name">Name</label>
+    <input type="text" name="name" value="{{petToEdit.name}}">
+
+    <br>
+
+    <label for="animalType">Choose animal type:</label>
+    <select name="animalType">
+
+      <option value="dog" selected>Dog</option>
+      <option value="cat">Cat</option>
+{{!-- 
+      {{#if (eq petToEdit.animalType==="dog")}}
+      <option value="dog" selected>Dog</option>
+      <option value="cat">Cat</option>
+      {{else}}
+      <option value="dog">Dog</option>
+      <option value="cat" selected>Cat</option>
+      {{/if}} --}}
+
+    </select>
+
+    <br>
+    <label for="race">Race:</label>
+    <input type="text" name="race" value="{{petToEdit.race}}">
+    <br>
+
+
+ <select name="size">
+ <option value="small" selected>Small</option>
+      <option value="medium">Medium</option>
+      <option value="big">Big</option>
+</select>
+
+
+    {{!-- <label for="size">Choose animal size:</label>
+    <select name="size">
+      {{#if petToEdit.size==="small"}}
+      <option value="small" selected>Small</option>
+      <option value="medium">Medium</option>
+      <option value="big">Big</option>
+      {{/if}}
+   {{#if petToEdit.size==="medium"}}
+      <option value="small">Small</option>
+      <option value="medium" selected>Medium</option>
+      <option value="big">Big</option>
+      {{/if}}
+   {{#if petToEdit.size==="big"}}
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="big" selected>Big</option>
+      {{/if}} --}}
+
+
+      
+    </select>
+
+    <br>
+
+    <label for="dateOfBirth">Date Of Birth:</label>
+    <input type="date" name="dateOfBirth" value="{{petToEdit.dateOfBirth}}">
+
+    <br>
+
+    <label for="comment">comment</label>
+    <textarea name="comment" rows="5" cols="50">{{petToEdit.comment}}</textarea>
+
+    <br>
+
+    <button>Save Edit</button>
+
+    {{#if this.errorMessage}}
+    <p>{{this.errorMessage}}</p>
+    {{/if}}
+
+  </form>
+ <a href="/owner/petlist">Cancel</a>
+</div>

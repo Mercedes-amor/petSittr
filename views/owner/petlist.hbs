@@ -1,7 +1,30 @@
 <h2>Your pets</h2>
 
+{{#each allOwnerPets}}
+
+<h3>Name: {{this.name}}</h2>
+  <p>Animal type: {{this.animalType}}</p>
+  <p>Race: {{this.race}}</p>
+  <p>Size: {{this.size}}</p>
+  <p>Date of birth: {{this.dateOfBirth}}</p>
+  <p>Comement: {{this.comment}}</p>
+
+  <br>
+  <a href="/owner/edit-pet/{{this._id}}">Edit pet</a>
+  <br>
+  <a href="/owner/delete-pet/{{this._id}}">Delete pet</a>
+  {{/each}}
+
+  {{#if this.errorMessage}}
+  <p>{{this.errorMessage}}</p>
+  {{/if}}
 
 
-<a href="/owner/add-pet">Add a new pet</a>
 
 
+
+
+
+
+
+  <a href="/owner/add-pet">Add a new pet</a>

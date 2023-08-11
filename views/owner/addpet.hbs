@@ -9,14 +9,14 @@
 
     <br>
 
- <label for="animalType">Choose animal type:</label>
+    <label for="animalType">Choose animal type:</label>
     <select name="animalType">
-        <option value="dog">Dog</option>
-        <option value="cat">Cat</option>
+      <option value="dog">Dog</option>
+      <option value="cat">Cat</option>
 
     </select>
 
-   <br>
+    <br>
 
 
     <label for="race">Race:</label>
@@ -25,30 +25,32 @@
     <br>
 
 
- <label for="size">Choose animal size:</label>
+    <label for="size">Choose animal size:</label>
     <select name="size">
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-  <option value="big">Big</option>
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="big">Big</option>
     </select>
 
-   <br>
+    <br>
 
-  <label for="dateOfBirth">Date Of Birth:</label>
+    <label for="dateOfBirth">Date Of Birth:</label>
     <input type="date" name="dateOfBirth">
 
     <br>
 
     <label for="comment">comment</label>
-   <textarea name="comment" rows="5" cols="50"></textarea>
+    <textarea name="comment" rows="5" cols="50"></textarea>
 
     <br>
 
     <button>Add</button>
 
-     {{#if this.errorMessage}} 
-      <p>{{this.errorMessage}}</p>
-    {{/if}} 
+    <a href="/owner/petlist">Cancel</a>
+
+    {{#if this.errorMessage}}
+    <p>{{this.errorMessage}}</p>
+    {{/if}}
 
   </form>
 
