@@ -1,0 +1,37 @@
+<div>
+
+  <h3>Signup form</h3>
+
+  <form action="/signup" method="post">
+
+    <label for="username">Name</label>
+    <input type="text" name="username">
+
+    <br>
+
+    <label for="email">Email</label>
+    <input type="email" name="email">
+
+    <br>
+
+    <label for="password">Password</label>
+    <input type="password" name="password">
+
+    <br>
+
+    <label for="userType">Choose your role:</label>
+    <select name="userType">
+        <option value="owner">Owner</option>
+        <option value="sittr">Sittr</option>
+
+    </select>
+    <br>
+    <button>Registro</button>
+
+    {{!-- {{#if this.errorMessage}} 
+      <p>{{this.errorMessage}}</p>
+    {{/if}} --}}
+
+  </form>
+
+</div>
