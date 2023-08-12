@@ -7,7 +7,7 @@ const Job = require("../models/Job.model.js");
 // GET "/owner/petlist" => Enseñar vista de mascotas
 router.get("/petlist", async (req, res, next) => {
     try {
-        const allOwnerPets = await Pet.find();
+        const allOwnerPets = await Pet.find({owner:req.session.user._id});
         res.render("owner/petlist.hbs", {
             allOwnerPets
         })
@@ -112,9 +112,51 @@ router.get("/delete-pet/:petId", async (req, res, next) => {
 })
 
 
+//GET "owner/add-job" => Enseñar formulario de creación job
+router.get("/add-job", async (req, res, next) => {
+  const ownerPets = await Pet.find({owner:req.session.user._id})
+    res.render("owner/jobadd.hbs", {ownerPets})
+})
 
+// POST "/owner/addJob" => añade job a db
+router.post("/add-job", async (req, res, next) => {
+    const { pet, city, startDate, endDate, comment  } = req.body
+    console.log(pet)
 
+    try {
+        if (pet === "" || city === "" || startDate === "" || endDate === "") {
+            const ownerPets = await Pet.find({owner:req.session.user._id})
+            res.status(400).render("owner/jobadd.hbs", {
+                errorMessage: "pet, city and dates are fields are required",
+                ownerPets
+            })
+            return
+        }
+        await Job.create({
+            owner: req.session.user._id,
+            pet, 
+            city, 
+            startDate, 
+            endDate, 
+            comment 
+        })
+        res.redirect("/owner/joblist")
+    } catch (error) {
+        next(error)
+    }
+})
 
+// GET "/owner/joblist" => Enseñar vista de jobs
+router.get("/joblist", async (req, res, next) => {
+    try {
+        const ownerJobs = await Job.find({owner:req.session.user._id});
+        res.render("owner/joblist.hbs", {
+            ownerJobs
+        })
+    } catch (error) {
+        next(error);
+    }
+})
 
 
 

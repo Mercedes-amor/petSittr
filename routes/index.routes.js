@@ -7,6 +7,7 @@ router.get("/", (req, res, next) => {
   res.render("index");
 });
 
+//LOGIN
 router.post("/", async (req, res, next) => {
   const { email, password } = req.body
   try {
@@ -39,6 +40,16 @@ router.post("/", async (req, res, next) => {
     next(error)
   }
 })
+
+//LOGOUT
+
+  router.get("/logout", (req,res,next) =>{
+    req.session.destroy(() =>{
+      res.redirect("/")
+    })
+  })
+
+
 
 
 const authRouter = require("./auth.routes.js")
