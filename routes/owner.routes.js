@@ -149,7 +149,7 @@ router.post("/add-job", async (req, res, next) => {
 // GET "/owner/joblist" => Enseñar vista de jobs
 router.get("/joblist", async (req, res, next) => {
     try {
-        const ownerJobs = await Job.find({owner:req.session.user._id});
+        const ownerJobs = await Job.find({owner:req.session.user._id}).populate("pet");
         res.render("owner/joblist.hbs", {
             ownerJobs
         })

@@ -4,9 +4,9 @@
     {{#each ownerJobs}}
 
     <h3>Name: {{this.city}}-{{this.startDate}}</h3>
-            {{#each ownerJobs.pet}}
+            {{#each this.pet}}
             <a href="">
-                <p>Pet: {{this.name}} - {{this.race}}</p>
+                <p>Pet: {{this.name}} - {{this.animalType}}</p>
             </a>
             {{/each}}
         <p>Start Date: {{this.startDate}}</p>

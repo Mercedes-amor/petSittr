@@ -1,0 +1,48 @@
+<div>
+
+    
+  <form action="/sittr/joblist" method="post">
+    <label for="city">city:</label>
+    <input type="text" name="city" />
+
+    <br />
+    <label for="animalType">Choose animal type:</label>
+
+    <label for="dog">Dog</label>
+    <input type="checkbox" name="animalType" value="dog" />
+    <br />
+    <label for="cat">Cat</label>
+    <input type="checkbox" name="animalType" value="cat" />
+    <br />
+     <button>Apply filters</button>
+  </form>
+   {{#if this.errorMessage}}
+      <p>{{this.errorMessage}}</p>
+    {{/if}}
+
+</div>
+
+<div>
+  <h3>List Job</h3>
+
+  {{#each jobsList}}
+
+    <h3>Name: {{this.city}}-{{this.startDate}}</h3>
+    {{#each this.pet}}
+      <a href="">
+        <p>Pet: {{this.name}} - {{this.animalType}}</p>
+      </a>
+    {{/each}}
+    <p>Start Date: {{this.startDate}}</p>
+    <p>End Date: {{this.endDate}}</p>
+    <p>Comement: {{this.comment}}</p>
+
+    <br />
+    {{!-- <a href="/owner/edit-job/{{this._id}}">Edit Job</a>
+    <br />
+    <a href="/owner/delete-job/{{this._id}}">Delete Job</a> --}}
+  {{/each}}
+
+
+
+</div>
