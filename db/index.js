@@ -18,6 +18,4 @@ mongoose
     console.error("Error connecting to mongo: ", err);
   });
 
-
-
-  module.exports = MONGO_URI
+module.exports = MONGO_URI

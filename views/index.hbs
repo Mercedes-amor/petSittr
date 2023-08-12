@@ -5,30 +5,32 @@
 
   <h3>Login form</h3>
 
-    <form action="/" method="post">
+  <form action="/" method="post">
 
     <label for="email">Email</label>
-    <input type="email" name="email">
+    <input type="email" name="email" />
 
-    <br>
+    <br />
 
     <label for="password">Password</label>
-    <input type="password" name="password">
+    <input type="password" name="password" />
 
-    <br>
+    <br />
 
     <button>Login</button>
 
-    {{#if this.errorMessage}} 
+    {{#if this.errorMessage}}
       <p>{{this.errorMessage}}</p>
     {{/if}}
 
   </form>
 
 </div>
-<br>
-<h5>Not registered click here</h5>
-<div>
- <a href="/signup">signup</a>
-</div>
 
+<br />
+
+<h5>Not registered click here</h5>
+
+<div>
+  <a href="/signup">signup</a>
+</div>
