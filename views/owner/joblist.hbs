@@ -4,18 +4,17 @@
     {{#each ownerJobs}}
 
     <h3>Name: {{this.city}}-{{this.startDate}}</h3>
-            {{#each ownerJobs.pet}}
-            <a href="">
-                <p>Pet: {{this.name}} - {{this.race}}</p>
-            </a>
+            {{#each this.pet}}
+            {{!-- <a href=""> --}}
+                <p>Pet: {{this._id}} - {{this.race}}</p>
+            {{!-- </a> --}}
             {{/each}}
         <p>Start Date: {{this.startDate}}</p>
         <p>End Date: {{this.endDate}}</p>
         <p>Comement: {{this.comment}}</p>
 
         <br>
-        <a href="/owner/edit-job/{{this._id}}">Edit Job</a>
-        <br>
-        <a href="/owner/delete-job/{{this._id}}">Delete Job</a>
+        <a href="/owner/edit-job/{{this._id}}"> <button> Job</button> </a>
+        <a href="/owner/delete-job/{{this._id}}"><button> Delete Job</button></a>
     {{/each}}
 </div>

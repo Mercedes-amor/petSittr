@@ -53,6 +53,7 @@ router.get("/edit-pet/:petId", async (req, res, next) => {
     let isSmall = false
     let isMedium = false
     let isBig = false
+    let isDate = false
     try {
         const petToEdit = await Pet.findById(req.params.petId)
         if (petToEdit.animalType === "dog") {
@@ -69,11 +70,20 @@ router.get("/edit-pet/:petId", async (req, res, next) => {
             isBig = true
         }
 
-        // console.log(petToEdit.dateOfBirth)
-        dateOfBirthForHTML = petToEdit.dateOfBirth.toISOString().split("T")[0]
-        res.render("owner/editpet.hbs", {
-            petToEdit, isDog, isSmall, isMedium, isBig, dateOfBirth: dateOfBirthForHTML
-        })
+        // console.log("dateOfBirth",petToEdit.dateOfBirth)
+        if (petToEdit.dateOfBirth !== null) {
+            dateOfBirthForHTML = petToEdit.dateOfBirth.toISOString().split("T")[0]
+            res.render("owner/editpet.hbs", {
+                petToEdit, isDog, isSmall, isMedium, isBig, dateOfBirth: dateOfBirthForHTML
+            })
+              
+        } else {
+            res.render("owner/editpet.hbs", {
+            petToEdit, isDog, isSmall, isMedium, isBig
+        })  
+        } 
+
+       
     } catch (error) {
         next(error)
     }
