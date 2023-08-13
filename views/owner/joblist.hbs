@@ -5,9 +5,9 @@
 
     <h3>Name: {{this.city}}-{{this.startDate}}</h3>
             {{#each this.pet}}
-            {{!-- <a href=""> --}}
-                <p>Pet: {{this._id}} - {{this.race}}</p>
-            {{!-- </a> --}}
+            <a href="">
+                <p>Pet: {{this.name}} - {{this.animalType}}</p>
+            </a>
             {{/each}}
         <p>Start Date: {{this.startDate}}</p>
         <p>End Date: {{this.endDate}}</p>

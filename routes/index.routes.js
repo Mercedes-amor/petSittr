@@ -58,4 +58,8 @@ router.use("/signup", authRouter)
 const ownerRouter = require("./owner.routes.js")
 router.use("/owner", ownerRouter)
 
+const sittrRouter = require("./sittr.routes.js")
+router.use("/sittr", sittrRouter)
+
+
 module.exports = router;
