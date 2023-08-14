@@ -19,12 +19,12 @@ router.get("/joblist/", async (req, res, next) => {
 
 // POST "/sittr/joblist" => Enseñar vista de jobs Filtrados
 router.post("/joblist", async (req, res, next) => {
-  const { city, animalType } = req.body;
+  const { city, animalType, startDate, endDate } = req.body;
   // console.log (animalType)
-  if (animalType === undefined || city === "") {
-    const jobsList = await Job.find().populate("pet");
+  if (animalType === undefined || city === ""|| startDate === ""|| endDate === "" || startDate >= endDate || new Date(startDate)<= new Date()|| new Date(endDate)<= new Date()) {
+    const jobsList = await Job.find({status:"pending"}).populate("pet");
     res.status(400).render("sittr/joblist.hbs", {
-      errorMessage: "city and animal Type are fields are required",
+      errorMessage: "city,animal Type and dates  are fields are required , start date can't be greater than end date, date can´tbe longer than today",
       jobsList,
     });
     return;
@@ -34,14 +34,17 @@ router.post("/joblist", async (req, res, next) => {
 
   try {
     if (animalType.includes("dog") && animalType.includes("cat")) {
-      const jobsList = await Job.find({ city }).populate("pet");
+      const jobsList = await Job.find({ city,status:"pending", $and: [
+        { startDate: { $gt: currentDate } },
+        { endDate: { $lt: currentDate } },
+      ] }).populate("pet");
       res.render("sittr/joblist.hbs", {
         jobsList,
       });
       console.log("both", jobsList[0].pet[0]);
     } else if (animalType.includes("dog")) {
 
-      let jobsList = await Job.find({ city }).populate("pet");
+      let jobsList = await Job.find({ city,status:"pending" }).populate("pet");
  
 
       const jobListClone = JSON.parse(JSON.stringify(jobsList));
@@ -68,7 +71,7 @@ router.post("/joblist", async (req, res, next) => {
 
       //   console.log("doggy", jobsList)
     } else if (animalType.includes("cat")) {
-      let jobsList = await Job.find({ city }).populate("pet");
+      let jobsList = await Job.find({ city, status:"pending"}).populate("pet");
  
       const jobListClone = JSON.parse(JSON.stringify(jobsList));
       

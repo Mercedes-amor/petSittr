@@ -14,10 +14,10 @@ router.get("/", (req, res, next) => {
 
 //LOGIN
 router.post("/", async (req, res, next) => {
-  const { email, password } = req.body
+  const { email, password,RemeberMe } = req.body
   try {
     const foundUser = await User.findOne({ email: email })
-    console.log("frome user with love " + foundUser)
+     console.log("from user with love ", foundUser)
     if (foundUser === null) {
       res.status(400).render("index.hbs", {
         errorMessage: "User not found"
@@ -32,6 +32,13 @@ router.post("/", async (req, res, next) => {
       }
       //! guardamos en la sesion informacion del usuario que no deberia cambiar
       //! el metodo .save() se invoca para esperar que se crea la sesion antes de hacer lo siguiente
+      
+
+      //1 houre sessions
+      if(RemeberMe === undefined) {
+        req.session.cookie.maxAge = 1 * 60 * 60 * 1000
+      }
+      
       req.session.save(() => {
         if(req.session.user.userType === "owner") {
           res.redirect("/owner/petlist")

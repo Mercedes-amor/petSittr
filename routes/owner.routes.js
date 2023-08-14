@@ -139,7 +139,7 @@ router.get("/edit-pet/:petId", async (req, res, next) => {
 });
 
 // POST "/owner/edit-pet/:petId" => edita mascota en db
-router.post("/edit-pet/:petId", async (req, res, next) => {
+router.post("/edit-pet/:petId", uploader.single("picture"), async (req, res, next) => {
   const { name, animalType, race, size, dateOfBirth, comment } = req.body;
   // console.log(req.session.user._id)
   if (name === "" || animalType === "" || size === "") {
@@ -149,14 +149,34 @@ router.post("/edit-pet/:petId", async (req, res, next) => {
     return;
   }
   try {
-    await Pet.findByIdAndUpdate(req.params.petId, {
-      name,
-      animalType,
-      race,
-      size,
-      dateOfBirth,
-      comment,
-    });
+    let petprofilePic = ""
+    if(req.file === undefined){
+      await Pet.findByIdAndUpdate(req.params.petId, {
+        name,
+        animalType,
+        race,
+        size,
+        dateOfBirth,
+        comment,})
+        console.log("no file")
+    
+    }else{
+      petprofilePic = req.file.path
+
+      await Pet.findByIdAndUpdate(req.params.petId, {
+        name,
+        animalType,
+        race,
+        size,
+        dateOfBirth,
+        comment,
+        picture: petprofilePic
+      });
+
+    }
+
+
+
     res.redirect("/owner/petlist");
   } catch (error) {
     next(error);
@@ -184,11 +204,11 @@ router.post("/add-job", async (req, res, next) => {
   console.log(pet);
 
   try {
-    if (pet === "" || city === "" || startDate === "" || endDate === "") {
+    if (pet === "" || city === "" || startDate === "" || endDate === "" || startDate >= endDate || new Date(startDate)<= new Date()|| new Date(endDate)<= new Date()) {
       const ownerPets = await Pet.find({ owner: req.session.user._id });
       res.status(400).render("owner/jobadd.hbs", {
-        errorMessage: "pet, city and dates are fields are required",
-        ownerPets,
+        errorMessage: "pet, city and dates are fields are required  start date can't be greater than end date, date can´tbe longer than today",
+        ownerPets
       });
       return;
     }

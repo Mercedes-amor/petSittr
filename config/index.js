@@ -54,7 +54,7 @@ module.exports = (app) => {
     },
     store: MongoStore.create({
       mongoUrl: MONGO_URI,
-      ttl: 4 * 24 * 60 * 60 // time to live. Tiempo de vida. En SEGUNDOS. Ejemplo de 4 días. OPCIONAL
+      ttl: 7 * 24 * 60 * 60 // time to live. Tiempo de vida. En SEGUNDOS. Ejemplo de 7 días. OPCIONAL
     })
   }))
 
