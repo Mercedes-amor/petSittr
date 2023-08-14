@@ -26,7 +26,10 @@ const petSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    comment: String
+    comment: String,
+    picture: {
+        type: String
+      }
 });
 
 const Pet = mongoose.model("Pet", petSchema);

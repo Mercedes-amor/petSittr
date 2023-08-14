@@ -29,7 +29,7 @@
 
     <h3>Name: {{this.city}}-{{this.startDate}}</h3>
     {{#each this.pet}}
-      <a href="">
+      <a href="/sittr/view-pet/{{this._id}}">
         <p>Pet: {{this.name}} - {{this.animalType}}</p>
       </a>
     {{/each}}

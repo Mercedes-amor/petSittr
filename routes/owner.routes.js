@@ -4,6 +4,9 @@ const User = require("../models/User.model.js");
 const Pet = require("../models/Pet.model.js");
 const Job = require("../models/Job.model.js");
 
+const uploader = require("../middlewares/cloudinary.middlewares.js")
+
+
 // GET "/owner/petlist" => Enseñar vista de mascotas
 router.get("/petlist", async (req, res, next) => {
   try {
@@ -16,22 +19,62 @@ router.get("/petlist", async (req, res, next) => {
   }
 });
 
+
+
+// POST "/owner/upload-pet-picture" ruta para subir la foto
+// router.post("/upload-pet-picture", uploader.single("picture"),  (req, res, next) => {
+
+//   Pet.findByIdAndUpdate( req.session.user._id, {
+//     profilePic: req.file.path
+//   } )
+//   .then(() => {
+//     res.redirect("/user")
+//   })
+//   .catch((error) => {
+//     next(error)
+//   })
+
+// })
+
+
+
+
+
+
+
+
+
+
+
+
+
 // GET "/owner/addPet" => Enseñar vista para añadir mascota
 router.get("/add-pet", (req, res, next) => {
   res.render("owner/addpet.hbs");
 });
 
 // POST "/owner/addPet" => añade mascota a db
-router.post("/add-pet", async (req, res, next) => {
+router.post("/add-pet", uploader.single("picture"), async (req, res, next) => {
   const { name, animalType, race, size, dateOfBirth, comment } = req.body;
   // console.log(req.session.user._id)
-  if (name === "" || animalType === "" || size === "") {
+  if (name === "" || animalType === "" || size === "" ) {
     res.status(400).render("owner/addpet.hbs", {
       errorMessage: "name, animal Type,size, fields are required",
     });
     return;
   }
   try {
+   
+    let petprofilePic = ""
+if(req.file === undefined){
+   petprofilePic = "https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996"
+ 
+
+}else{
+  petprofilePic = req.file.path
+}
+
+console.log(petprofilePic)
     await Pet.create({
       name,
       animalType,
@@ -40,6 +83,7 @@ router.post("/add-pet", async (req, res, next) => {
       dateOfBirth,
       owner: req.session.user._id,
       comment,
+      picture: petprofilePic
     });
     res.redirect("/owner/petlist");
   } catch (error) {

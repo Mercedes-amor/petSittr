@@ -1,8 +1,25 @@
 <div>
 
   <h3>Add a new pet </h3>
+{{!-- 
+  <form action="/owner/upload-pet-picture" method="post" enctype="multipart/form-data">
 
-  <form action="/owner/add-pet" method="post">
+
+    <label for="picture">Your pet picture</label>
+    <input type="file" name="picture">
+
+    <button>Add</button>
+
+  </form> --}}
+
+
+
+  <form action="/owner/add-pet" method="post" enctype="multipart/form-data">
+
+  <label for="picture">Your pet picture</label>
+    <input type="file" name="picture" value="https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996">
+
+ <br />
 
     <label for="name">Name</label>
     <input type="text" name="name" />
