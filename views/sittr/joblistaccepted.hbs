@@ -1,0 +1,25 @@
+
+<div>
+  <h3>List Job accepted</h3>
+
+  {{#each jobsList}}
+
+    <h3>Name: {{this.city}}-{{this.startDate}}</h3>
+    {{#each this.pet}}
+      <a href="/sittr/view-pet/{{this._id}}">
+        <p>Pet: {{this.name}} - {{this.animalType}}</p>
+      </a>
+    {{/each}}
+    <p>Start Date: {{this.startDate}}</p>
+    <p>End Date: {{this.endDate}}</p>
+    <p>Status: {{this.status}}</p>
+    <p>Comement: {{this.comment}}</p>
+
+    <br />
+    <a href="/sittr/accept-job/{{this._id}}"> <button> Accept</button></a>
+  
+  {{/each}}
+
+
+
+</div>

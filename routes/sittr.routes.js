@@ -8,7 +8,7 @@ const Job = require("../models/Job.model.js");
 // GET "/sittr/joblist" => Enseñar vista de jobs
 router.get("/joblist/", async (req, res, next) => {
   try {
-    const jobsList = await Job.find().populate("pet");
+    const jobsList = await Job.find({status:"pending"}).populate("pet");
     res.render("sittr/joblist.hbs", {
       jobsList,
     });
@@ -24,7 +24,7 @@ router.post("/joblist", async (req, res, next) => {
   if (animalType === undefined || city === "") {
     const jobsList = await Job.find().populate("pet");
     res.status(400).render("sittr/joblist.hbs", {
-      errorMessage: "pet, animal Type are fields are required",
+      errorMessage: "city and animal Type are fields are required",
       jobsList,
     });
     return;
@@ -40,10 +40,9 @@ router.post("/joblist", async (req, res, next) => {
       });
       console.log("both", jobsList[0].pet[0]);
     } else if (animalType.includes("dog")) {
+
       let jobsList = await Job.find({ city }).populate("pet");
-      // res.render("sittr/joblist.hbs", {
-      //     jobsList
-      // })
+ 
 
       const jobListClone = JSON.parse(JSON.stringify(jobsList));
       
@@ -69,11 +68,30 @@ router.post("/joblist", async (req, res, next) => {
 
       //   console.log("doggy", jobsList)
     } else if (animalType.includes("cat")) {
-      const jobsList = await Job.find({ city }).populate("pet", "animalType");
+      let jobsList = await Job.find({ city }).populate("pet");
+ 
+      const jobListClone = JSON.parse(JSON.stringify(jobsList));
+      
+      const onlyCatsJobList = jobListClone.filter((jobToFilter) => {
+        let isThereAnyDog = false;
+        for (const petIs of jobToFilter.pet) {
+          if (petIs.animalType==="dog") {
+            isThereAnyDog = true;
+          }
+        }
+        if (isThereAnyDog) {
+            return false
+          } else {
+            return true
+          }
+      });
+
+      jobsList = JSON.parse(JSON.stringify(onlyCatsJobList));
+      console.log(onlyCatsJobList);
       res.render("sittr/joblist.hbs", {
         jobsList,
       });
-      console.log("kitty", jobsList);
+
     }
   } catch (error) {
     next(error);
@@ -91,5 +109,42 @@ router.get("/view-pet/:petId", async (req, res, next) => {
     next(error);
   }
 });
+
+
+//GET "/sittr/accept-job/:jobId" => Cambia el status del job a executing
+
+router.get("/accept-job/:jobId", async (req, res,nest) =>{
+
+  try {
+    await Job.findByIdAndUpdate(req.params.jobId, {
+        status: "executing",
+        sittr: req.session.user._id 
+        })
+    res.redirect("/sittr/joblist")
+  } catch (error) {
+    next(error);
+  }
+
+})
+
+
+//GET "/sittr/job-list-accepted" 
+router.get("/job-list-accepted", async (req,res,next) =>{
+
+try {
+  const jobsList = await Job.find({sittr: req.session.user._id })
+  .populate("pet")
+  res.render("sittr/joblistaccepted.hbs", {
+    jobsList
+  })
+} catch (error) {
+  next(error);
+}
+
+})
+
+
+
+
 
 module.exports = router;

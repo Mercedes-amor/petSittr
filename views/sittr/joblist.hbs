@@ -35,12 +35,12 @@
     {{/each}}
     <p>Start Date: {{this.startDate}}</p>
     <p>End Date: {{this.endDate}}</p>
+    <p>Status: {{this.status}}</p>
     <p>Comement: {{this.comment}}</p>
 
     <br />
-    {{!-- <a href="/owner/edit-job/{{this._id}}">Edit Job</a>
-    <br />
-    <a href="/owner/delete-job/{{this._id}}">Delete Job</a> --}}
+    <a href="/sittr/accept-job/{{this._id}}"> <button> Accept</button></a>
+  
   {{/each}}
 
 

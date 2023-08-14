@@ -169,6 +169,9 @@ router.get("/delete-pet/:petId", async (req, res, next) => {
   res.redirect("/owner/petlist");
 });
 
+
+// //     JOBS    //   //
+
 //GET "owner/add-job" => Enseñar formulario de creación job
 router.get("/add-job", async (req, res, next) => {
   const ownerPets = await Pet.find({ owner: req.session.user._id });
@@ -206,9 +209,8 @@ router.post("/add-job", async (req, res, next) => {
 // GET "/owner/joblist" => Enseñar vista de jobs
 router.get("/joblist", async (req, res, next) => {
   try {
-    const ownerJobs = await Job.find({ owner: req.session.user._id }).populate(
-      "pet"
-    );
+    const ownerJobs = await Job.find({ owner: req.session.user._id })
+    .populate("pet sittr")
     res.render("owner/joblist.hbs", {
       ownerJobs,
     });
