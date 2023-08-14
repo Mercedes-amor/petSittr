@@ -53,7 +53,6 @@ router.get("/edit-pet/:petId", async (req, res, next) => {
   let isSmall = false;
   let isMedium = false;
   let isBig = false;
-  let isDate = false;
   try {
     const petToEdit = await Pet.findById(req.params.petId);
     if (petToEdit.animalType === "dog") {
@@ -231,6 +230,7 @@ router.post("/edit-job/:jobId", async (req, res, next) => {
   if (pet === null || city === "" || startDate === "" || endDate === "") {
     res.status(400).render("owner/jobedit.hbs", {
       errorMessage: "pet, city and dates are fields required",
+      
     });
     return;
   }
