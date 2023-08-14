@@ -23,7 +23,8 @@ router.get("/joblist/", async (req, res, next) => {
 // POST "/sittr/joblist" => Enseñar vista de jobs Filtrados
 router.post("/joblist", async (req, res, next) => {
 const { city , animalType} = req.body
-if (animalType === "" || city === "" ) {
+// console.log (animalType)
+if (animalType === undefined || city === "" ) {
     const jobsList = await Job.find().populate("pet")
     res.status(400).render("sittr/joblist.hbs", {
         errorMessage: "pet, animal Type are fields are required",
@@ -31,14 +32,41 @@ if (animalType === "" || city === "" ) {
     })
     return
 }
-console.log (req.body)
+//  console.log (req.body)
+//  console.log(animalType)
+
+    
+
     try {
-        const jobsList = await Job
-        .find({city, animalType})
-        .populate("pet");
-        res.render("sittr/joblist.hbs", {
-            jobsList
-        })
+        if(animalType.includes("dog") && animalType.includes("cat")) {
+            const jobsList = await Job
+            .find({city})
+            .populate("pet");
+            res.render("sittr/joblist.hbs", {
+                jobsList
+            })
+            console.log("both", jobsList)
+        } else 
+        
+        if(animalType.includes("dog")) {
+            const jobsList = await Job
+            .find({city, pet: {$nin: ["cat"]}})
+            .populate("pet");
+            res.render("sittr/joblist.hbs", {
+                jobsList
+            })
+        console.log("doggy", jobsList)
+        } else if( animalType.includes("cat")) {
+            const jobsList = await Job
+            .find({city, pet: {$nin: ["dog"]}})
+            .populate("pet");
+            res.render("sittr/joblist.hbs", {
+                jobsList
+            })
+            console.log("kitty", jobsList)
+        }
+
+        
     } catch (error) {
         next(error);
     }

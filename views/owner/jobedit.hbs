@@ -1,0 +1,46 @@
+<div>
+    <h3>Modify this Job </h3>
+
+    <form action="/owner/edit-job/{{jobToEdit._id}}" method="post">
+
+        <label for="pet">Choose your pets:</label>
+        <select name="pet" multiple>
+        
+        {{#each ownerPets}}
+        <option value="{{this._id}}">{{this.name}}</option>
+        {{/each}}
+        </select>
+
+        <br />
+
+        <label for="city">city:</label>
+        <input type="text" name="city" value="{{jobToEdit.city}}" />
+
+        <br />
+
+        <label for="startDate">Start date:</label>
+        <input type="date" name="startDate" value="{{startDateForHTML}}"/>
+
+        <br />
+
+        <label for="endDate">End date:</label>
+        <input type="date" name="endDate" value="{{endDateForHTML}}"/>
+
+        <br />
+
+        <label for="comment">comment</label>
+        <textarea name="comment" rows="5" cols="50">{{jobToEdit.comment}}</textarea>
+
+        <br />
+
+        <button>Update</button>
+        <br>
+        <a href="/owner/joblist"><button>Cancel</button></a>
+
+        {{#if this.errorMessage}}
+        <p>{{this.errorMessage}}</p>
+        {{/if}}
+
+    </form>
+
+</div>

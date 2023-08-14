@@ -1,20 +1,27 @@
 <div>
     <h3>List Job</h3>
 
+    {{#if this.errorMessage2}}
+    <p>{{this.errorMessage2}}</p>
+    {{/if}}
+
     {{#each ownerJobs}}
 
     <h3>Name: {{this.city}}-{{this.startDate}}</h3>
-            {{#each this.pet}}
-            <a href="">
-                <p>Pet: {{this.name}} - {{this.animalType}}</p>
-            </a>
-            {{/each}}
-        <p>Start Date: {{this.startDate}}</p>
-        <p>End Date: {{this.endDate}}</p>
-        <p>Comement: {{this.comment}}</p>
-
-        <br>
-        <a href="/owner/edit-job/{{this._id}}"> <button> Job</button> </a>
-        <a href="/owner/delete-job/{{this._id}}"><button> Delete Job</button></a>
+    {{#each this.pet}}
+    <a href="">
+        <p>Pet: {{this.name}} - {{this.animalType}}</p>
+    </a>
     {{/each}}
+    <p>Start Date: {{this.startDate}}</p>
+    <p>End Date: {{this.endDate}}</p>
+    <p>Status: {{this.status}}</p>
+    <p>Comement: {{this.comment}}</p>
+
+    <br>
+    <a href="/owner/edit-job/{{this._id}}"> <button>Modify Job</button> </a>
+    <a href="/owner/delete-job/{{this._id}}"><button> Delete Job</button></a>
+    
+    {{/each}}
+   
 </div>
