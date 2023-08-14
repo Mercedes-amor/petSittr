@@ -12,11 +12,27 @@
 <body>
    <nav>
       <a href="/"> <button> Home</button></a>
+      <br>
+      <hr>
+      {{#if isOwnerLocals}}
+      <h4>Owner links:</h4>
       <a href="/owner/petlist"><button>Pet List</button></a>
       <a href="/owner/joblist"><button>Job List</button></a>
       <a href="/owner/add-pet"><button>Add a new Pet</button></a>
       <a href="/owner/add-job"><button>Add a new Job</button></a>
       <a href="/logout"><button>Logout</button></a>  
+      <br>
+      <hr>
+      {{/if}}
+      {{#if isSittrLocals}}
+      <h4>sittr links:</h4>
+      <a href="/sittr/joblist"><button>Search jobs</button></a>
+      <a href="/sittr/job-list-accepted"><button>Jobs accepted</button></a>
+      <a href="/logout"><button>Logout</button></a>  
+      <br>
+      <hr>
+      {{/if}}
+        
    </nav>
    {{{body}}}
 

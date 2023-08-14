@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/User.model.js")
 
+const { isLoggedIn, isOwner, isSittr } = require("../middlewares/roles.middlewares.js")
+/*router.use(isLoggedIn)*/
+const { isUserLocals } = require("../middlewares/roles.middlewares.js")
+router.use(isUserLocals)
+
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -28,7 +33,11 @@ router.post("/", async (req, res, next) => {
       //! guardamos en la sesion informacion del usuario que no deberia cambiar
       //! el metodo .save() se invoca para esperar que se crea la sesion antes de hacer lo siguiente
       req.session.save(() => {
-        res.redirect("/owner/petlist")
+        if(req.session.user.userType === "owner") {
+          res.redirect("/owner/petlist")
+        }else if(req.session.user.userType === "sittr") {
+          res.redirect("/sittr/job-list-accepted")
+        }
       })
     }
     else {
@@ -56,10 +65,10 @@ const authRouter = require("./auth.routes.js")
 router.use("/signup", authRouter)
 
 const ownerRouter = require("./owner.routes.js")
-router.use("/owner", ownerRouter)
+router.use("/owner", isLoggedIn, isOwner, ownerRouter)
 
 const sittrRouter = require("./sittr.routes.js")
-router.use("/sittr", sittrRouter)
+router.use("/sittr", isLoggedIn, isSittr, sittrRouter)
 
 
 module.exports = router;
