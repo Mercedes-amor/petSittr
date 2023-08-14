@@ -45,21 +45,21 @@ if (animalType === undefined || city === "" ) {
             res.render("sittr/joblist.hbs", {
                 jobsList
             })
-            console.log("both", jobsList)
+            console.log("both", jobsList[0].pet[0])
         } else 
         
         if(animalType.includes("dog")) {
             const jobsList = await Job
-            .find({city, pet: {$nin: ["cat"]}})
-            .populate("pet");
+            .find({city, "pet":{"$elemMatch": {"animalType": "dog"}}})
+            .populate("pet")
             res.render("sittr/joblist.hbs", {
                 jobsList
             })
         console.log("doggy", jobsList)
         } else if( animalType.includes("cat")) {
             const jobsList = await Job
-            .find({city, pet: {$nin: ["dog"]}})
-            .populate("pet");
+            .find({city, "animalType": 'cat'})
+            .populate("pet","animalType",);
             res.render("sittr/joblist.hbs", {
                 jobsList
             })
@@ -72,10 +72,18 @@ if (animalType === undefined || city === "" ) {
     }
 })
 
+// GET "/sittr/view-pet/:petId" => Enseñar vista de pets de un job
+router.get("/view-pet/:petId", async (req, res, next) => {
+    try {
+        const petToView = await Pet.findById(req.params.petId);
+        res.render("sittr/viewpet.hbs", {
+            petToView
+        })
+    } catch (error) {
+        next(error);
+    }
+})
 
-
-//continue
-//continue Mercedes
 
 
 
