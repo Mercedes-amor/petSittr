@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(80deg, orange, rgb(232, 235, 219));
+  height: 100vh; 
+};
+
 
 a {
   color: #00b7ff;
@@ -10,3 +15,53 @@ a {
 h1 {
   color: 15px;
 }
+
+
+/* LAYOUT PAGE*/
+
+#logoImg {
+  width: 100%;
+
+}
+.indexBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 70vh; 
+}
+
+.logoDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.logoDiv h1 {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.loginBox {
+  background-color: rgba(248, 248, 242, 0.349);
+  border-radius: 10px;
+  padding: 10px;
+} 
+
+.signupBox {
+  width: 300px;
+}
+
+.btn-primary {
+  background-color: #00b8a9;
+}
+
+.btn-primary:hover{
+  background-color: rgb(5, 99, 91);
+}
+
+
+
+

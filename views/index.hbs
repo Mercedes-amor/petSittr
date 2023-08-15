@@ -1,42 +1,63 @@
-<h1>PETSITTR</h1>
-<img src="https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996" alt="log CatDog" width="150px">
-<p>Welcome!</p>
+<div class="indexBox">
+  <div class="logoDiv">
+    <h1>PETSITTR</h1>
+    <img
+      id="logoImg"
+      src="/images/logo.png"
+      alt="log CatDog"
+    />
+    <h3>Happy pets, peacefull owners</h3>
 
-<div>
+  </div>
 
-  <h3>Login form</h3>
+  <div class="loginSingUpBox">
 
-  <form action="/" method="post">
+    <div class="loginBox">
 
-    <label for="email">Email</label>
-    <input type="email" name="email" />
+      <h3>Login form</h3>
+
+      <form action="/" method="post">
+        <div class="mb-3">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-control" type="email" name="email" />
+        </div>
+
+
+        <div class="mb-3">
+          <label class="form-label" for="password">Password</label>
+          <input class="form-control" type="password" name="password" />
+        </div>
+
+
+
+
+        <div class="mb-3 form-check">
+          <label class="form-check-label" for="RemeberMe">Remeber Me</label>
+          <input class="form-check-input" type="checkbox" name="RemeberMe"
+            value="true" checked />
+
+        </div>
+
+
+        <button class="btn btn-primary">Login</button>
+
+        {{#if this.errorMessage}}
+        <p>{{this.errorMessage}}</p>
+        {{/if}}
+
+      </form>
+
+    </div>
 
     <br />
 
-    <label for="password">Password</label>
-    <input type="password" name="password" />
-
-    <br />
-
-   <label for="RemeberMe">Remeber Me</label>
-    <input type="checkbox" name="RemeberMe" value="true" checked/>
-
-
-    <br />
-
-    <button>Login</button>
-
-    {{#if this.errorMessage}}
-      <p>{{this.errorMessage}}</p>
-    {{/if}}
-
-  </form>
+    <div class="mb-3">
+      <label class="form-check-label">Not registered yet? click here</label>
+      <a href="/signup"> <button class="btn btn-primary">signup</button></a>
+    </div>
+  </div>
 
 </div>
-
-<br/>
-
-<div>
-<h5>Not registered yet? click here</h5>
-<a href="/signup"> <button>signup</button></a>
-</div>
+    <blockquote class="blockquote mb-0">
+      <footer class="blockquote-footer"><cite title="Source Title">©Mercedes & Rishi 2023</cite></footer>
+    </blockquote>
