@@ -35,8 +35,8 @@ router.post("/joblist", async (req, res, next) => {
   try {
     if (animalType.includes("dog") && animalType.includes("cat")) {
       const jobsList = await Job.find({ city,status:"pending", $and: [
-        { startDate: { $gt: currentDate } },
-        { endDate: { $lt: currentDate } },
+        { startDate: { $gte: Date(startDate) } },
+        { endDate: { $lte: Date(endDate) } },
       ] }).populate("pet");
       res.render("sittr/joblist.hbs", {
         jobsList,
