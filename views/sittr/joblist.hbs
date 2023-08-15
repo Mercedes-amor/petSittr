@@ -3,26 +3,41 @@
     
   <form action="/sittr/joblist" method="post">
     <label for="city">city:</label>
-    <input type="text" name="city" />
+    <input type="text" name="city" value="{{this.city}}"/>
 
     <br />
     <label for="animalType">Choose animal type:</label>
 
+{{#if this.isDog}}
     <label for="dog">Dog</label>
-    <input type="checkbox" name="animalType" value="dog" />
+    <input type="checkbox" name="animalType" value="dog" checked/>
+   <br />
+{{else}}
+ <label for="dog">Dog</label>
+    <input type="checkbox" name="animalType" value="dog"/>
     <br />
+{{/if}}
+{{#if this.isCat}}
+   <label for="cat">Cat</label>
+    <input type="checkbox" name="animalType" value="cat" checked/>
+    {{else}}
     <label for="cat">Cat</label>
-    <input type="checkbox" name="animalType" value="cat" />
+    <input type="checkbox" name="animalType" value="cat"/>
+
+{{/if}}
+
+
+
     <br />
 
 
         <label for="startDate">Start date:</label>
-        <input type="date" name="startDate" />
+        <input type="date" name="startDate" value="{{this.startDate}}"/>
 
         <br />
 
         <label for="endDate">End date:</label>
-        <input type="date" name="endDate" />
+        <input type="date" name="endDate"value="{{this.endDate}}" />
 
         <br />
 

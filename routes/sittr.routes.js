@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const dateFixer = require("../utils/jobDateFixer.js");
 const User = require("../models/User.model.js");
 const Pet = require("../models/Pet.model.js");
 const Job = require("../models/Job.model.js");
@@ -8,7 +9,11 @@ const Job = require("../models/Job.model.js");
 // GET "/sittr/joblist" => Enseñar vista de jobs
 router.get("/joblist/", async (req, res, next) => {
   try {
-    const jobsList = await Job.find({status:"pending"}).populate("pet");
+    let jobsList = await Job.find({ status: "pending" }).populate("pet");
+
+
+    jobsList= dateFixer(jobsList)
+
     res.render("sittr/joblist.hbs", {
       jobsList,
     });
@@ -20,12 +25,43 @@ router.get("/joblist/", async (req, res, next) => {
 // POST "/sittr/joblist" => Enseñar vista de jobs Filtrados
 router.post("/joblist", async (req, res, next) => {
   const { city, animalType, startDate, endDate } = req.body;
+  let isCat = false;
+  let isDog = false;
+  if (animalType!== undefined) {
+  if (animalType.length === 2) {
+    isCat = true;
+    isDog = true;
+  } else {
+    if (animalType === "dog") {
+      isDog = true;
+    }
+    if (animalType === "cat") {
+      isCat = true;
+    }
+  }
+  }
   // console.log (animalType)
-  if (animalType === undefined || city === ""|| startDate === ""|| endDate === "" || startDate >= endDate || new Date(startDate)< new Date()|| new Date(endDate)< new Date()) {
-    const jobsList = await Job.find({status:"pending"}).populate("pet");
+  if (
+    animalType === undefined ||
+    city === "" ||
+    startDate === "" ||
+    endDate === "" ||
+    startDate >= endDate ||
+    new Date(startDate) < new Date() ||
+    new Date(endDate) < new Date()
+  ) {
+    let jobsList = await Job.find({ status: "pending" }).populate("pet");
+    jobsList= dateFixer(jobsList)
     res.status(400).render("sittr/joblist.hbs", {
-      errorMessage: "city,animal Type and dates  are fields are required , start date can't be greater than end date, date can´tbe longer than today",
+      errorMessage:
+        "city,animal Type and dates  are fields are required , start date can't be greater than end date, date can´tbe longer than today",
       jobsList,
+      city,
+      animalType,
+      startDate,
+      endDate,
+      isDog,
+      isCat,
     });
     return;
   }
@@ -33,75 +69,92 @@ router.post("/joblist", async (req, res, next) => {
   //  console.log(animalType)
 
   try {
-    console.log(startDate)
+    console.log(startDate);
     if (animalType.includes("dog") && animalType.includes("cat")) {
-      const jobsList = await Job.find({ city,status:"pending", $and: [
-        { startDate: { $gte: startDate } },
-        { endDate: { $lte: endDate } },
-      ] }).populate("pet");
+      let jobsList = await Job.find({
+        city,
+        status: "pending",
+        $and: [
+          { startDate: { $gte: startDate } },
+          { endDate: { $lte: endDate } },
+        ],
+      }).populate("pet");
+      jobsList= dateFixer(jobsList)
       res.render("sittr/joblist.hbs", {
         jobsList,
       });
       console.log("both", jobsList[0].pet[0]);
     } else if (animalType.includes("dog")) {
-
-      let jobsList = await Job.find({ city,status:"pending",$and: [
-        { startDate: { $gte: startDate } },
-        { endDate: { $lte: endDate } },
-      ] }).populate("pet");
- 
+      let jobsList = await Job.find({
+        city,
+        status: "pending",
+        $and: [
+          { startDate: { $gte: startDate } },
+          { endDate: { $lte: endDate } },
+        ],
+      }).populate("pet");
 
       const jobListClone = JSON.parse(JSON.stringify(jobsList));
-      
+
       const onlyDogsJobList = jobListClone.filter((jobToFilter) => {
         let isThereAnyCat = false;
         for (const petIs of jobToFilter.pet) {
-          if (petIs.animalType==="cat") {
+          if (petIs.animalType === "cat") {
             isThereAnyCat = true;
           }
         }
         if (isThereAnyCat) {
-            return false
-          } else {
-            return true
-          }
+          return false;
+        } else {
+          return true;
+        }
       });
 
       jobsList = JSON.parse(JSON.stringify(onlyDogsJobList));
       console.log(onlyDogsJobList);
+      jobsList= dateFixer(jobsList)
       res.render("sittr/joblist.hbs", {
-        jobsList,
+        jobsList, city,
+        animalType,
+        startDate,
+        endDate,
+        isDog,
+        isCat,
       });
 
       //   console.log("doggy", jobsList)
     } else if (animalType.includes("cat")) {
-      let jobsList = await Job.find({ city, status:"pending",$and: [
-        { startDate: { $gte: startDate } },
-        { endDate: { $lte: endDate } },
-      ]}).populate("pet");
- 
+      let jobsList = await Job.find({
+        city,
+        status: "pending",
+        $and: [
+          { startDate: { $gte: startDate } },
+          { endDate: { $lte: endDate } },
+        ],
+      }).populate("pet");
+
       const jobListClone = JSON.parse(JSON.stringify(jobsList));
-      
+
       const onlyCatsJobList = jobListClone.filter((jobToFilter) => {
         let isThereAnyDog = false;
         for (const petIs of jobToFilter.pet) {
-          if (petIs.animalType==="dog") {
+          if (petIs.animalType === "dog") {
             isThereAnyDog = true;
           }
         }
         if (isThereAnyDog) {
-            return false
-          } else {
-            return true
-          }
+          return false;
+        } else {
+          return true;
+        }
       });
 
       jobsList = JSON.parse(JSON.stringify(onlyCatsJobList));
       console.log(onlyCatsJobList);
+      jobsList= dateFixer(jobsList)
       res.render("sittr/joblist.hbs", {
         jobsList,
       });
-
     }
   } catch (error) {
     next(error);
@@ -120,41 +173,32 @@ router.get("/view-pet/:petId", async (req, res, next) => {
   }
 });
 
-
 //GET "/sittr/accept-job/:jobId" => Cambia el status del job a executing
 
-router.get("/accept-job/:jobId", async (req, res,nest) =>{
-
+router.get("/accept-job/:jobId", async (req, res, nest) => {
   try {
     await Job.findByIdAndUpdate(req.params.jobId, {
-        status: "executing",
-        sittr: req.session.user._id 
-        })
-    res.redirect("/sittr/joblist")
+      status: "executing",
+      sittr: req.session.user._id,
+    });
+    res.redirect("/sittr/joblist");
   } catch (error) {
     next(error);
   }
+});
 
-})
-
-
-//GET "/sittr/job-list-accepted" 
-router.get("/job-list-accepted", async (req,res,next) =>{
-
-try {
-  const jobsList = await Job.find({sittr: req.session.user._id })
-  .populate("pet")
-  res.render("sittr/joblistaccepted.hbs", {
-    jobsList
-  })
-} catch (error) {
-  next(error);
-}
-
-})
-
-
-
-
+//GET "/sittr/job-list-accepted"
+router.get("/job-list-accepted", async (req, res, next) => {
+  try {
+    const jobsList = await Job.find({ sittr: req.session.user._id }).populate(
+      "pet"
+    );
+    res.render("sittr/joblistaccepted.hbs", {
+      jobsList,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
