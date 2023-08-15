@@ -21,7 +21,7 @@ router.get("/joblist/", async (req, res, next) => {
 router.post("/joblist", async (req, res, next) => {
   const { city, animalType, startDate, endDate } = req.body;
   // console.log (animalType)
-  if (animalType === undefined || city === ""|| startDate === ""|| endDate === "" || startDate >= endDate || new Date(startDate)<= new Date()|| new Date(endDate)<= new Date()) {
+  if (animalType === undefined || city === ""|| startDate === ""|| endDate === "" || startDate >= endDate || new Date(startDate)< new Date()|| new Date(endDate)< new Date()) {
     const jobsList = await Job.find({status:"pending"}).populate("pet");
     res.status(400).render("sittr/joblist.hbs", {
       errorMessage: "city,animal Type and dates  are fields are required , start date can't be greater than end date, date can´tbe longer than today",
@@ -33,10 +33,11 @@ router.post("/joblist", async (req, res, next) => {
   //  console.log(animalType)
 
   try {
+    console.log(startDate)
     if (animalType.includes("dog") && animalType.includes("cat")) {
       const jobsList = await Job.find({ city,status:"pending", $and: [
-        { startDate: { $gte: Date(startDate) } },
-        { endDate: { $lte: Date(endDate) } },
+        { startDate: { $gte: startDate } },
+        { endDate: { $lte: endDate } },
       ] }).populate("pet");
       res.render("sittr/joblist.hbs", {
         jobsList,
@@ -44,7 +45,10 @@ router.post("/joblist", async (req, res, next) => {
       console.log("both", jobsList[0].pet[0]);
     } else if (animalType.includes("dog")) {
 
-      let jobsList = await Job.find({ city,status:"pending" }).populate("pet");
+      let jobsList = await Job.find({ city,status:"pending",$and: [
+        { startDate: { $gte: startDate } },
+        { endDate: { $lte: endDate } },
+      ] }).populate("pet");
  
 
       const jobListClone = JSON.parse(JSON.stringify(jobsList));
@@ -71,7 +75,10 @@ router.post("/joblist", async (req, res, next) => {
 
       //   console.log("doggy", jobsList)
     } else if (animalType.includes("cat")) {
-      let jobsList = await Job.find({ city, status:"pending"}).populate("pet");
+      let jobsList = await Job.find({ city, status:"pending",$and: [
+        { startDate: { $gte: startDate } },
+        { endDate: { $lte: endDate } },
+      ]}).populate("pet");
  
       const jobListClone = JSON.parse(JSON.stringify(jobsList));
       

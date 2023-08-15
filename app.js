@@ -31,8 +31,7 @@ app.use("/", indexRoutes);
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
-const oneDayInMilliseconds = 24
-//  * 60 * 60 * 1000;
+const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 
 // Execute the concludedQuery function every day
 

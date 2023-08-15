@@ -204,7 +204,7 @@ router.post("/add-job", async (req, res, next) => {
   console.log(pet);
 
   try {
-    if (pet === "" || city === "" || startDate === "" || endDate === "" || startDate >= endDate || new Date(startDate)<= new Date()|| new Date(endDate)<= new Date()) {
+    if (pet === "" || city === "" || startDate === "" || endDate === "" || startDate >= endDate || new Date(startDate)< new Date()|| new Date(endDate)< new Date()) {
       const ownerPets = await Pet.find({ owner: req.session.user._id });
       res.status(400).render("owner/jobadd.hbs", {
         errorMessage: "pet, city and dates are fields are required  start date can't be greater than end date, date can´tbe longer than today",
