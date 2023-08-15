@@ -4,34 +4,30 @@ const User = require("../models/User.model.js");
 const Pet = require("../models/Pet.model.js");
 const Job = require("../models/Job.model.js");
 
-const uploader = require("../middlewares/cloudinary.middlewares.js")
-
+const uploader = require("../middlewares/cloudinary.middlewares.js");
 
 // GET "/owner/petlist" => Enseñar vista de mascotas
 router.get("/petlist", async (req, res, next) => {
   try {
-    
-    const allOwnerPets = await Pet.find({ owner: req.session.user._id });
-    const allOwnerPetsDates = JSON.parse(JSON.stringify(allOwnerPets));
+    let allOwnerPets = await Pet.find({ owner: req.session.user._id });
+    let allOwnerPetsDatesFix = JSON.parse(JSON.stringify(allOwnerPets));
 
-    let allOwnerPetsDatesFix = allOwnerPetsDates.map ((pet) =>{
-    return pet.dateOfBirth
-    // .toISOString().split("T")[0];
-    // console.log("Pet Comprobación",pet.dateOfBirth)
-   });
-    console.log("datesPet",allOwnerPetsDatesFix)
+    allOwnerPetsDatesFix.forEach((pet) => {
+      if (pet.dateOfBirth !== null) {
+        const formatedDate = new Date(pet.dateOfBirth);
+        pet.dateOfBirth = formatedDate.toISOString().split("T")[0];
+      }
+    });
 
-    // const dateOfBirthForHTML = allOwnerPets.dateOfBirth.toISOString().split("T")[0];
+    allOwnerPets = allOwnerPetsDatesFix;
+
     res.render("owner/petlist.hbs", {
       allOwnerPets,
-      // allOwnerPetsDatesFix 
     });
   } catch (error) {
     next(error);
   }
 });
-
-
 
 // GET "/owner/addPet" => Enseñar vista para añadir mascota
 router.get("/add-pet", (req, res, next) => {
@@ -42,24 +38,22 @@ router.get("/add-pet", (req, res, next) => {
 router.post("/add-pet", uploader.single("picture"), async (req, res, next) => {
   const { name, animalType, race, size, dateOfBirth, comment } = req.body;
   // console.log(req.session.user._id)
-  if (name === "" || animalType === "" || size === "" ) {
+  if (name === "" || animalType === "" || size === "") {
     res.status(400).render("owner/addpet.hbs", {
       errorMessage: "name, animal Type,size, fields are required",
     });
     return;
   }
   try {
-   
-    let petprofilePic = ""
-if(req.file === undefined){
-   petprofilePic = "https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996"
- 
+    let petprofilePic = "";
+    if (req.file === undefined) {
+      petprofilePic =
+        "https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996";
+    } else {
+      petprofilePic = req.file.path;
+    }
 
-}else{
-  petprofilePic = req.file.path
-}
-
-console.log(petprofilePic)
+    console.log(petprofilePic);
     await Pet.create({
       name,
       animalType,
@@ -68,7 +62,7 @@ console.log(petprofilePic)
       dateOfBirth,
       owner: req.session.user._id,
       comment,
-      picture: petprofilePic
+      picture: petprofilePic,
     });
     res.redirect("/owner/petlist");
   } catch (error) {
@@ -124,49 +118,50 @@ router.get("/edit-pet/:petId", async (req, res, next) => {
 });
 
 // POST "/owner/edit-pet/:petId" => edita mascota en db
-router.post("/edit-pet/:petId", uploader.single("picture"), async (req, res, next) => {
-  const { name, animalType, race, size, dateOfBirth, comment } = req.body;
-  // console.log(req.session.user._id)
-  if (name === "" || animalType === "" || size === "") {
-    res.status(400).render("owner/editpet.hbs", {
-      errorMessage: "name, animal Type,size, fields are required",
-    });
-    return;
-  }
-  try {
-    let petprofilePic = ""
-    if(req.file === undefined){
-      await Pet.findByIdAndUpdate(req.params.petId, {
-        name,
-        animalType,
-        race,
-        size,
-        dateOfBirth,
-        comment,})
-        console.log("no file")
-    
-    }else{
-      petprofilePic = req.file.path
-
-      await Pet.findByIdAndUpdate(req.params.petId, {
-        name,
-        animalType,
-        race,
-        size,
-        dateOfBirth,
-        comment,
-        picture: petprofilePic
+router.post(
+  "/edit-pet/:petId",
+  uploader.single("picture"),
+  async (req, res, next) => {
+    const { name, animalType, race, size, dateOfBirth, comment } = req.body;
+    // console.log(req.session.user._id)
+    if (name === "" || animalType === "" || size === "") {
+      res.status(400).render("owner/editpet.hbs", {
+        errorMessage: "name, animal Type,size, fields are required",
       });
-
+      return;
     }
+    try {
+      let petprofilePic = "";
+      if (req.file === undefined) {
+        await Pet.findByIdAndUpdate(req.params.petId, {
+          name,
+          animalType,
+          race,
+          size,
+          dateOfBirth,
+          comment,
+        });
+        console.log("no file");
+      } else {
+        petprofilePic = req.file.path;
 
+        await Pet.findByIdAndUpdate(req.params.petId, {
+          name,
+          animalType,
+          race,
+          size,
+          dateOfBirth,
+          comment,
+          picture: petprofilePic,
+        });
+      }
 
-
-    res.redirect("/owner/petlist");
-  } catch (error) {
-    next(error);
+      res.redirect("/owner/petlist");
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // GET "/owner/delete-pet/:petId" => Enseñar vista para añadir mascota
 router.get("/delete-pet/:petId", async (req, res, next) => {
@@ -174,8 +169,7 @@ router.get("/delete-pet/:petId", async (req, res, next) => {
   res.redirect("/owner/petlist");
 });
 
-
-// //     JOBS    //   //
+//     JOBS    //   
 
 //GET "owner/add-job" => Enseñar formulario de creación job
 router.get("/add-job", async (req, res, next) => {
@@ -189,11 +183,20 @@ router.post("/add-job", async (req, res, next) => {
   console.log(pet);
 
   try {
-    if (pet === "" || city === "" || startDate === "" || endDate === "" || startDate >= endDate || new Date(startDate)< new Date()|| new Date(endDate)< new Date()) {
+    if (
+      pet === "" ||
+      city === "" ||
+      startDate === "" ||
+      endDate === "" ||
+      startDate >= endDate ||
+      new Date(startDate) < new Date() ||
+      new Date(endDate) < new Date()
+    ) {
       const ownerPets = await Pet.find({ owner: req.session.user._id });
       res.status(400).render("owner/jobadd.hbs", {
-        errorMessage: "pet, city and dates are fields are required  start date can't be greater than end date, date can´tbe longer than today",
-        ownerPets
+        errorMessage:
+          "pet, city and dates are fields are required  start date can't be greater than end date, date can´tbe longer than today",
+        ownerPets,
       });
       return;
     }
@@ -214,8 +217,38 @@ router.post("/add-job", async (req, res, next) => {
 // GET "/owner/joblist" => Enseñar vista de jobs
 router.get("/joblist", async (req, res, next) => {
   try {
-    const ownerJobs = await Job.find({ owner: req.session.user._id })
-    .populate("pet sittr")
+    let ownerJobs = await Job.find({ owner: req.session.user._id })
+    .sort({ status: -1 })
+    .populate(
+      "pet sittr"
+    );
+
+
+
+    let allOwnerJobsDatesFix = JSON.parse(JSON.stringify(ownerJobs));
+
+    allOwnerJobsDatesFix.forEach((job) => {
+     
+        const formatedStartDate = new Date(job.startDate);
+        job.startDate = formatedStartDate.toISOString().split("T")[0];
+        const formatedEndDate = new Date(job.endDate);
+        job.endDate = formatedEndDate.toISOString().split("T")[0];
+
+
+    });
+
+    ownerJobs = allOwnerJobsDatesFix;
+
+
+
+
+
+
+
+
+
+
+
     res.render("owner/joblist.hbs", {
       ownerJobs,
     });
@@ -263,13 +296,13 @@ router.get("/edit-job/:jobId", async (req, res, next) => {
       });
       console.log("jobToEdit", jobToEdit);
     } else {
-        const ownerJobs = await Job.find({
-            owner: req.session.user._id,
-          }).populate("pet");
-          res.status(400).render("owner/joblist.hbs", {
-            ownerJobs,
-            errorMessage2: "Can't modify a executing/concluded job",
-          });
+      const ownerJobs = await Job.find({
+        owner: req.session.user._id,
+      }).populate("pet");
+      res.status(400).render("owner/joblist.hbs", {
+        ownerJobs,
+        errorMessage2: "Can't modify a executing/concluded job",
+      });
     }
   } catch (error) {}
 });
@@ -281,7 +314,6 @@ router.post("/edit-job/:jobId", async (req, res, next) => {
   if (pet === null || city === "" || startDate === "" || endDate === "") {
     res.status(400).render("owner/jobedit.hbs", {
       errorMessage: "pet, city and dates are fields required",
-      
     });
     return;
   }

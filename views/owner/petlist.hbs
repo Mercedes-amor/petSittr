@@ -1,24 +1,38 @@
 <h2>Your pets</h2>
+<div class="containerPetCard">
+
+
 
 {{#each allOwnerPets}}
+<div class="PetCard">
+<div class="innerPetCard">
+<h3><b>{{this.name}}</b></h2>
+<img class="petListPic" src="{{this.picture}}" alt="picture of {{this.name}}" height="150px" >
+ 
+  <p>Animal type: <b>{{this.animalType}}</b></p>
+  <p>Race: <b>{{this.race}}</b></p>
+  <p>Size: <b>{{this.size}}</b></p>
+  <p>Date of birth: <b>{{this.dateOfBirth}}</b></p>
+  <p>Comment:<b> {{this.comment}}</b></p>
 
-<h3>Name: {{this.name}}</h2>
-<img src="{{this.picture}}" alt="picture of {{this.name}}" width="150px" >
-  <p>Animal type: {{this.animalType}}</p>
-  <p>Race: {{this.race}}</p>
-  <p>Size: {{this.size}}</p>
-  <p>Date of birth: {{this.dateOfBirthForHTML}}</p>
-  <p>Comement: {{this.comment}}</p>
+ </div>
+  <div class="buttonsSep">
+  <a href="/owner/edit-pet/{{this._id}}"><button class="btn btn-primary">Edit pet</button></a>
+  <a href="/owner/delete-pet/{{this._id}}"><button class="btn btn-danger">Delete pet</button></a>
 
-  <br>
-  <a href="/owner/edit-pet/{{this._id}}"><button>Edit pet</button></a>
-  <a href="/owner/delete-pet/{{this._id}}"><button>Delete pet</button></a>
-  <br>
+  </div>
+</div>
+  
+
   {{/each}}
+   </div>
   {{#if this.errorMessage}}
-  <p>{{this.errorMessage}}</p>
+<div class="alert alert-danger" role="alert">
+  {{this.errorMessage}}
+  </div>
   {{/if}}
   <br>
   <hr>
-  <a href="/owner/add-pet"> <button> Add a new pet</button> </a>
-  <a href="/owner/add-job"> <button>Add a new Job</button></a>
+  
+
+ 

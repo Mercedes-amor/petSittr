@@ -1,28 +1,50 @@
-<div>
+<div class="cardJobContainer">
     <h3>List Job</h3>
 
     {{#if this.errorMessage2}}
-    <p>{{this.errorMessage2}}</p>
+ <div class="alert alert-danger" role="alert">
+    {{this.errorMessage2}}
+    </div>
     {{/if}}
 
     {{#each ownerJobs}}
 
-    <h3>Name: {{this.city}}-{{this.startDate}}</h3>
-    {{#each this.pet}}
-    <a href="">
-        <p>Pet: {{this.name}} - {{this.animalType}}</p>
-    </a>
-    {{/each}}
-    <p>Start Date: {{this.startDate}}</p>
-    <p>End Date: {{this.endDate}}</p>
-    <p>Status: {{this.status}}</p>
-    <p>Comement: {{this.comment}}</p>
-    <p>Sittr: {{this.sittr.username}}</p>
+    <div class="cardJob">
+        <div>
+            <h3><b>{{this.city}} - {{this.startDate}}</b></h3>
+        </div>
 
-    <br>
-    <a href="/owner/edit-job/{{this._id}}"> <button>Modify Job</button> </a>
-    <a href="/owner/delete-job/{{this._id}}"><button> Delete Job</button></a>
-    
-    {{/each}}
-   
+        <div class="subCardBody">
+            <div>
+                <p><b>Pet:</b></p>
+                {{#each this.pet}}
+               
+                    <p>{{this.name}} - {{this.animalType}}</p>
+                
+                {{/each}}
+            </div>
+            <div>
+                <p>Start Date: <b>{{this.startDate}}</b></p>
+                <p>End Date: <b>{{this.endDate}}</b></p>
+            </div>
+
+            <div>
+                <p>Status: <b>{{this.status}}</b></p>
+                <p>Comment: <b>{{this.comment}}</b></p>
+
+                <p>Sittr: <b>{{this.sittr.username}}</b></p>
+            </div>
+            <div class="ownerJobListButtons">
+                <a  href="/owner/edit-job/{{this._id}}"> <button class="btn btn-primary">Modify Job</button></a>
+                <a  href="/owner/delete-job/{{this._id}}"><button class="btn btn-danger"> Delete Job</button></a>
+            </div>
+           
+
+        </div>
+
+
+    </div>
+
+ {{/each}}
+
 </div>

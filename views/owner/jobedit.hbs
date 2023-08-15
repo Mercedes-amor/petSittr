@@ -38,7 +38,9 @@
         <a href="/owner/joblist"><button>Cancel</button></a>
 
         {{#if this.errorMessage}}
-        <p>{{this.errorMessage}}</p>
+        <div class="alert alert-danger" role="alert">
+        {{this.errorMessage}}
+        </div>
         {{/if}}
 
     </form>
