@@ -1,73 +1,75 @@
-<div>
+<div class="PetJobContainer">
 
-  <h3>Add a new pet </h3>
-{{!-- 
-  <form action="/owner/upload-pet-picture" method="post" enctype="multipart/form-data">
-
-
-    <label for="picture">Your pet picture</label>
-    <input type="file" name="picture">
-
-    <button>Add</button>
-
-  </form> --}}
+  <h3 class="PetTitle">Add a new pet </h3>
 
 
 
-  <form action="/owner/add-pet" method="post" enctype="multipart/form-data">
+  <div class="formPetJobContainer">
+    <form action="/owner/add-pet" method="post" enctype="multipart/form-data">
 
-  <label for="picture">Your pet picture</label>
-    <input type="file" name="picture" value="https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996">
+      <div class="mb-3">
+        <label for="picture">Your pet picture</label>
+        <input
+          class="form-control"
+          type="file"
+          name="picture"
+          value="https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996"
+        />
+      </div>
+      <div class="mb-3">
 
- <br />
+        <label for="name">Name</label>
+        <input class="form-control" type="text" name="name" />
 
-    <label for="name">Name</label>
-    <input type="text" name="name" />
+      </div>
+      <div class="mb-3">
+        <label for="animalType">Choose animal type:</label>
+        <br />
+        <select class="form-select" name="animalType">
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+        </select>
+      </div>
+      <div class="mb-3">
 
-    <br />
+        <label for="race">Race:</label>
+        <input class="form-control" type="text" name="race" />
+      </div>
+      <div class="mb-3">
+        <label for="size">Choose animal size:</label>
+        <br />
+        <select class="form-select" name="size">
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="big">Big</option>
+        </select>
+      </div>
 
-    <label for="animalType">Choose animal type:</label>
-    <select name="animalType">
-      <option value="dog">Dog</option>
-      <option value="cat">Cat</option>
-    </select>
+      <div class="mb-3">
+        <label for="dateOfBirth">Date Of Birth:</label>
+        <input class="form-control" type="date" name="dateOfBirth" />
 
-    <br />
+      </div>
 
-    <label for="race">Race:</label>
-    <input type="text" name="race" />
+      <div>
+        <label for="comment">comment</label>
+        <br>
+        <textarea name="comment" rows="5" cols="50" class="form-control" placeholder="Leave a comment here"></textarea>
 
-    <br />
+      </div>
+      <div class="formPetJobContainerButtons">
+        <button class="btn btn-primary">Add</button>
+        <a href="/owner/petlist"><button class="btn btn-outline-info">Cancel</button></a>
 
-    <label for="size">Choose animal size:</label>
-    <select name="size">
-      <option value="small">Small</option>
-      <option value="medium">Medium</option>
-      <option value="big">Big</option>
-    </select>
+        {{#if this.errorMessage}}
+          <div class="alert alert-danger" role="alert">
+            {{this.errorMessage}}
+          </div>
+        {{/if}}
+      </div>
 
-    <br />
+    </form>
 
-    <label for="dateOfBirth">Date Of Birth:</label>
-    <input type="date" name="dateOfBirth" />
-
-    <br />
-
-    <label for="comment">comment</label>
-    <textarea name="comment" rows="5" cols="50"></textarea>
-
-    <br />
-
-    <button>Add</button>
-    <br />
-    <a href="/owner/petlist"><button>Cancel</button></a>
-
-    {{#if this.errorMessage}}
-  <div class="alert alert-danger" role="alert">
-    {{this.errorMessage}}
-    </div>
-    {{/if}}
-
-  </form>
-
+ 
+</div>
 </div>

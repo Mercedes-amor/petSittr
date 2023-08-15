@@ -1,49 +1,56 @@
-<div>
+<div class="PetJobContainer">
 
-    <h3>Add a new job </h3>
-
+  <h3>Add a new job </h3>
+  <div class="formPetJobContainer">
     <form action="/owner/add-job" method="post">
 
+      <div class="mb-3">
         <label for="pet">Choose your pets:</label>
-        <select name="pet" multiple>
-        
-        {{#each ownerPets}}
-        <option value="{{this._id}}">{{this.name}}</option>
-        {{/each}}
+        <select class="form-select" name="pet" multiple>
+
+          {{#each ownerPets}}
+            <option value="{{this._id}}">{{this.name}}</option>
+          {{/each}}
         </select>
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="city">city:</label>
-        <input type="text" name="city" />
+        <input class="form-control" type="text" name="city" />
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="startDate">Start date:</label>
-        <input type="date" name="startDate" />
+        <input class="form-control" type="date" name="startDate" />
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="endDate">End date:</label>
-        <input type="date" name="endDate" />
+        <input class="form-control" type="date" name="endDate" />
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="comment">comment</label>
-        <textarea name="comment" rows="5" cols="50"></textarea>
+        <textarea name="comment" rows="5" cols="50"  class="form-control" placeholder="Leave a comment here"></textarea>
 
+      </div>
+
+      <div class="formPetJobContainerButtons">
+
+        <button class="btn btn-primary">Add Job</button>
         <br />
-
-        <button>Add Job</button>
-        <br>
-        <a href="/owner/joblist"><button>Cancel</button></a>
+        <a href="/owner/joblist"><button class="btn btn-outline-info">Cancel</button></a>
 
         {{#if this.errorMessage}}
-       <div class="alert alert-danger" role="alert">
-        {{this.errorMessage}}
-        </div>
+          <div class="alert alert-danger" role="alert">
+            {{this.errorMessage}}
+          </div>
         {{/if}}
-
+      </div>
     </form>
-
+  </div>
 </div>

@@ -1,48 +1,61 @@
-<div>
-    <h3>Modify this Job </h3>
+<div class="PetJobContainer">
+  <h3>Modify this Job </h3>
+
+  <div class="formPetJobContainer">
 
     <form action="/owner/edit-job/{{jobToEdit._id}}" method="post">
-
+      <div class="mb-3">
         <label for="pet">Choose your pets:</label>
-        <select name="pet" multiple>
-        
-        {{#each ownerPets}}
-        <option value="{{this._id}}">{{this.name}}</option>
-        {{/each}}
+        <select class="form-select" name="pet" multiple>
+
+          {{#each ownerPets}}
+            <option value="{{this._id}}">{{this.name}}</option>
+          {{/each}}
         </select>
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="city">city:</label>
-        <input type="text" name="city" value="{{jobToEdit.city}}" />
+        <input class="form-control" type="text" name="city" value="{{jobToEdit.city}}" />
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="startDate">Start date:</label>
-        <input type="date" name="startDate" value="{{startDateForHTML}}"/>
+        <input class="form-control" type="date" name="startDate" value="{{startDateForHTML}}" />
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="endDate">End date:</label>
-        <input type="date" name="endDate" value="{{endDateForHTML}}"/>
+        <input class="form-control" type="date" name="endDate" value="{{endDateForHTML}}" />
 
-        <br />
+      </div>
 
+      <div class="mb-3">
         <label for="comment">comment</label>
-        <textarea name="comment" rows="5" cols="50">{{jobToEdit.comment}}</textarea>
+        <textarea
+          name="comment"
+          rows="5"
+          cols="50"
+          class="form-control"
+          placeholder="Leave a comment here"
+        >{{jobToEdit.comment}}</textarea>
 
-        <br />
+      </div>
+      <div class="formPetJobContainerButtons">
 
-        <button>Update</button>
-        <br>
-        <a href="/owner/joblist"><button>Cancel</button></a>
+        <button class="btn btn-primary">Update</button>
+        
+        <a href="/owner/joblist"><button class="btn btn-outline-info">Cancel</button></a>
 
         {{#if this.errorMessage}}
-        <div class="alert alert-danger" role="alert">
-        {{this.errorMessage}}
-        </div>
+          <div class="alert alert-danger" role="alert">
+            {{this.errorMessage}}
+          </div>
         {{/if}}
-
+      </div>
     </form>
-
+  </div>
 </div>

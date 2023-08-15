@@ -1,90 +1,124 @@
-<div>
+<div class="PetJobContainer">
 
-  <h3>Edit your pets information</h3>
+  <h3>Edit your pet information</h3>
 
-  <form action="/owner/edit-pet/{{petToEdit._id}}" method="post" enctype="multipart/form-data">
+  <div class="formPetJobContainer">
 
-<img src="{{petToEdit.picture}}" alt="picture of {{petToEdit.name}}" width="150px" >
+    <form
+      action="/owner/edit-pet/{{petToEdit._id}}"
+      method="post"
+      enctype="multipart/form-data"
+    >
 
-  <label for="picture">Your pet picture</label>
-    <input type="file" name="picture" >
+      <img
+        class="petListPic"
+        src="{{petToEdit.picture}}"
+        alt="picture of {{petToEdit.name}}"
+        width="150px"
+      />
+      <div class="mb-3">
+        <label for="picture">Your pet picture</label>
+        <input class="form-control" type="file" name="picture" />
+      </div>
 
- <br />
+      <div class="mb-3">
 
+        <label for="name">Name</label>
+        <input
+          class="form-control"
+          type="text"
+          name="name"
+          value="{{petToEdit.name}}"
+        />
 
-    <br />
-    <label for="name">Name</label>
-    <input type="text" name="name" value="{{petToEdit.name}}" />
+      </div>
 
-    <br />
+      <div class="mb-3">
 
-    <label for="animalType">Choose animal type:</label>
-    <select name="animalType">
+        <label for="animalType">Choose animal type:</label>
+        <br />
+        <select class="form-select" name="animalType">
 
-      {{! <option value="dog" selected>Dog</option>
+          {{! <option value="dog" selected>Dog</option>
       <option value="cat">Cat</option> }}
 
-      {{#if isDog}}
-        <option value="dog" selected>Dog</option>
-        <option value="cat">Cat</option>
-      {{else}}
-        <option value="dog">Dog</option>
-        <option value="cat" selected>Cat</option>
-      {{/if}}
+          {{#if isDog}}
+            <option value="dog" selected>Dog</option>
+            <option value="cat">Cat</option>
+          {{else}}
+            <option value="dog">Dog</option>
+            <option value="cat" selected>Cat</option>
+          {{/if}}
 
-    </select>
-
-    <br />
-    <label for="race">Race:</label>
-    <input type="text" name="race" value="{{petToEdit.race}}" />
-    <br />
-
-    {{! <select name="size">
- <option value="small" selected>Small</option>
-      <option value="medium">Medium</option>
-      <option value="big">Big</option>
-</select> }}
-
-    <label for="size">Choose animal size:</label>
-    <select name="size">
-      {{#if isSmall}}
-        <option value="small" selected>Small</option>
-        <option value="medium">Medium</option>
-        <option value="big">Big</option>
-      {{/if}}
-      {{#if isMedium}}
-        <option value="small">Small</option>
-        <option value="medium" selected>Medium</option>
-        <option value="big">Big</option>
-      {{/if}}
-      {{#if isBig}}
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-        <option value="big" selected>Big</option>
-      {{/if}}
-
-    </select>
-
-    <br />
-
-    <label for="dateOfBirth">Date Of Birth:</label>
-    <input type="date" name="dateOfBirth" value="{{dateOfBirth}}" />
-
-    <br />
-
-    <label for="comment">comment</label>
-    <textarea name="comment" rows="5" cols="50">{{petToEdit.comment}}</textarea>
-
-    <br />
-
-    <button>Save Edit</button>
-
-    {{#if this.errorMessage}}
-     <div class="alert alert-danger" role="alert">
-      {{this.errorMessage}}
+        </select>
       </div>
-    {{/if}}
+      <div class="mb-3">
+        <label for="race">Race:</label>
+        <br />
+        <input
+          class="form-control"
+          type="text"
+          name="race"
+          value="{{petToEdit.race}}"
+        />
+      </div>
 
-  </form>
-  <a href="/owner/petlist"> <button>Cancel</button></a>
+      <div class="mb-3">
+        <label for="size">Choose animal size:</label>
+        <select class="form-select" name="size">
+          {{#if isSmall}}
+            <option value="small" selected>Small</option>
+            <option value="medium">Medium</option>
+            <option value="big">Big</option>
+          {{/if}}
+          {{#if isMedium}}
+            <option value="small">Small</option>
+            <option value="medium" selected>Medium</option>
+            <option value="big">Big</option>
+          {{/if}}
+          {{#if isBig}}
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="big" selected>Big</option>
+          {{/if}}
+
+        </select>
+
+      </div>
+
+      <div class="mb-3">
+        <label for="dateOfBirth">Date Of Birth:</label>
+        <input
+          class="form-control"
+          type="date"
+          name="dateOfBirth"
+          value="{{dateOfBirth}}"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="comment">comment</label>
+        <textarea
+          name="comment"
+          rows="5"
+          cols="50"
+          class="form-control"
+          placeholder="Leave a comment here"
+        >{{petToEdit.comment}}</textarea>
+      </div>
+      <div class="formPetJobContainerButtons">
+
+        <button class="btn btn-primary">Save Edit</button>
+
+        {{#if this.errorMessage}}
+          <div class="alert alert-danger" role="alert">
+            {{this.errorMessage}}
+          </div>
+        {{/if}}
+        <a href="/owner/petlist">
+          <button class="btn btn-outline-info">Cancel</button></a>
+      </div>
+    </form>
+
+  </div>
 </div>
