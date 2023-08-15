@@ -10,41 +10,26 @@ const uploader = require("../middlewares/cloudinary.middlewares.js")
 // GET "/owner/petlist" => Enseñar vista de mascotas
 router.get("/petlist", async (req, res, next) => {
   try {
+    
     const allOwnerPets = await Pet.find({ owner: req.session.user._id });
+    const allOwnerPetsDates = JSON.parse(JSON.stringify(allOwnerPets));
+
+    let allOwnerPetsDatesFix = allOwnerPetsDates.map ((pet) =>{
+    return pet.dateOfBirth
+    // .toISOString().split("T")[0];
+    // console.log("Pet Comprobación",pet.dateOfBirth)
+   });
+    console.log("datesPet",allOwnerPetsDatesFix)
+
+    // const dateOfBirthForHTML = allOwnerPets.dateOfBirth.toISOString().split("T")[0];
     res.render("owner/petlist.hbs", {
       allOwnerPets,
+      // allOwnerPetsDatesFix 
     });
   } catch (error) {
     next(error);
   }
 });
-
-
-
-// POST "/owner/upload-pet-picture" ruta para subir la foto
-// router.post("/upload-pet-picture", uploader.single("picture"),  (req, res, next) => {
-
-//   Pet.findByIdAndUpdate( req.session.user._id, {
-//     profilePic: req.file.path
-//   } )
-//   .then(() => {
-//     res.redirect("/user")
-//   })
-//   .catch((error) => {
-//     next(error)
-//   })
-
-// })
-
-
-
-
-
-
-
-
-
-
 
 
 
