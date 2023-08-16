@@ -1,47 +1,62 @@
-<div>
+<div class="signUpContainer">
 
   <h3>Signup form</h3>
+  <div class="formSignUpContainer">
 
-  <form action="/signup" method="post">
+    <form action="/signup" method="post">
+      <div class="mb-3">
+        <label for="username">Name</label>
+        <input
+          class="form-control"
+          type="text"
+          name="username"
+          value="{{username}}"
+        />
 
-    <label for="username">Name</label>
-    <input type="text" name="username" value="{{username}}" />
-
-    <br />
-
-    <label for="email">Email</label>
-    <input type="email" name="email" value="{{email}}"/>
-
-    <br />
-
-    <label for="password">Password</label>
-    <input type="password" name="password" />
-
-    <br />
-
-  <label for="password2">Password</label>
-    <input type="password" name="password2" />
-
-    <br />
-
-
-
-    <label for="userType">Choose your role:</label>
-    <select name="userType">
-      <option value="owner">Owner</option>
-      <option value="sittr">Sittr</option>
-    </select>
-
-    <br />
-
-    <button>Registro</button>
-
-    {{#if this.errorMessage}}
-       <div class="alert alert-danger" role="alert">
-      {{this.errorMessage}}
       </div>
-    {{/if}}
 
-  </form>
+      <div class="mb-3">
+        <label for="email">Email</label>
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          value="{{email}}"
+        />
 
+      </div>
+
+      <div class="mb-3">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password" />
+
+      </div>
+
+      <div class="mb-3">
+        <label for="password2">Password</label>
+        <input class="form-control" type="password" name="password2" />
+
+      </div>
+
+      <div class="mb-3">
+        <label for="userType">Choose your role:</label>
+        <select class="form-select"  name="userType">
+          <option value="owner">Owner</option>
+          <option value="sittr">Sittr</option>
+        </select>
+
+      </div>
+      <div class="formSignUpContainerButtons">
+        <button class="btn btn-primary">Signup</button>
+
+      </div>
+
+      {{#if this.errorMessage}}
+        <div class="alert alert-danger" role="alert">
+          {{this.errorMessage}}
+        </div>
+      {{/if}}
+
+    </form>
+  </div>
 </div>
