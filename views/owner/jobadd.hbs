@@ -17,25 +17,60 @@
 
       <div class="mb-3">
         <label for="city">city:</label>
-        <input class="form-control" type="text" name="city" value="{{this.city}}"/>
+        <input
+          class="form-control"
+          type="text"
+          name="city"
+          value="{{this.city}}"
+        />
+
+      </div>
+
+      <div class="mb-3">
+        <label for="price">price:</label>
+        <input
+          class="form-control"
+          type="number"
+          name="price"
+          step="0.01"
+          min="0"
+          placeholder="100.00"
+          value="{{this.price}}"
+        />
 
       </div>
 
       <div class="mb-3">
         <label for="startDate">Start date:</label>
-        <input class="form-control" type="date" name="startDate" value="{{this.startDate}}" />
+        <input
+          class="form-control"
+          type="date"
+          name="startDate"
+          value="{{this.startDate}}"
+        />
 
       </div>
 
       <div class="mb-3">
         <label for="endDate">End date:</label>
-        <input class="form-control" type="date" name="endDate" value="{{this.endDate}}"/>
+        <input
+          class="form-control"
+          type="date"
+          name="endDate"
+          value="{{this.endDate}}"
+        />
 
       </div>
 
       <div class="mb-3">
         <label for="comment">comment</label>
-        <textarea name="comment" rows="5" cols="50"  class="form-control" placeholder="Leave a comment here">{{this.comment}}</textarea>
+        <textarea
+          name="comment"
+          rows="5"
+          cols="50"
+          class="form-control"
+          placeholder="Leave a comment here"
+        >{{this.comment}}</textarea>
 
       </div>
 
@@ -43,14 +78,15 @@
 
         <button class="btn btn-primary">Add Job</button>
         <br />
-        <a href="/owner/joblist"><button class="btn btn-outline-info">Cancel</button></a>
-
-        {{#if this.errorMessage}}
-          <div class="alert alert-danger" role="alert">
-            {{this.errorMessage}}
-          </div>
-        {{/if}}
+        <a href="/owner/joblist"><button
+            class="btn btn-outline-info"
+          >Cancel</button></a>
       </div>
+      {{#if this.errorMessage}}
+        <div class="alert alert-danger" role="alert">
+          {{this.errorMessage}}
+        </div>
+      {{/if}}
     </form>
   </div>
 </div>

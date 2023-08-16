@@ -32,6 +32,10 @@ const jobSchema = new mongoose.Schema({
         enum: ["pending", "executing", "concluded"],
         default: "pending"
     },
+    price: {
+       type: Number,
+       required: true 
+    },
     comment: String
 });
 

@@ -17,19 +17,47 @@
 
       <div class="mb-3">
         <label for="city">city:</label>
-        <input class="form-control" type="text" name="city" value="{{jobToEdit.city}}" />
+        <input
+          class="form-control"
+          type="text"
+          name="city"
+          value="{{jobToEdit.city}}"
+        />
+
+      </div>
+
+      <div class="mb-3">
+        <label for="price">price:</label>
+        <input
+          class="form-control"
+          type="number"
+          name="price"
+          step="0.01"
+          min="0"
+          value="{{jobToEdit.price}}"
+        />
 
       </div>
 
       <div class="mb-3">
         <label for="startDate">Start date:</label>
-        <input class="form-control" type="date" name="startDate" value="{{startDateForHTML}}" />
+        <input
+          class="form-control"
+          type="date"
+          name="startDate"
+          value="{{startDateForHTML}}"
+        />
 
       </div>
 
       <div class="mb-3">
         <label for="endDate">End date:</label>
-        <input class="form-control" type="date" name="endDate" value="{{endDateForHTML}}" />
+        <input
+          class="form-control"
+          type="date"
+          name="endDate"
+          value="{{endDateForHTML}}"
+        />
 
       </div>
 
@@ -47,15 +75,16 @@
       <div class="formPetJobContainerButtons">
 
         <button class="btn btn-primary">Update</button>
-        
-        <a href="/owner/joblist"><button class="btn btn-outline-info">Cancel</button></a>
 
-        {{#if this.errorMessage}}
-          <div class="alert alert-danger" role="alert">
-            {{this.errorMessage}}
-          </div>
-        {{/if}}
+        <a href="/owner/joblist"><button
+            class="btn btn-outline-info"
+          >Cancel</button></a>
       </div>
+      {{#if this.errorMessage}}
+        <div class="alert alert-danger" role="alert">
+          {{this.errorMessage}}
+        </div>
+      {{/if}}
     </form>
   </div>
 </div>
