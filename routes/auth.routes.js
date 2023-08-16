@@ -25,7 +25,7 @@ return
    //Condiciones cifrado contraseña
    const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/gm
    if (regexPassword.test(password) === false) {
-     res.status(400).render("signup.hbs", {
+     res.status(400).render("signup.hbs", {username, email, userType,
        errorMessage: "The password must have at least one uppercase, one lowercase, one special character and be 5 characters or more"
      })
      return; 
