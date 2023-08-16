@@ -11,6 +11,10 @@ function isUserLocals(req, res, next) {
   console.log(req.session.user);
   if (req.session.user !== undefined) {
     // creo una variable local que indique que no está logeado
+    res.locals.isActive = true
+    res.locals.userName = req.session.user.userName
+    res.locals.userType = req.session.user.userType
+    console.log("localas", res.locals.userName, req.session.user.username)
     if (req.session.user.userType === "owner") {
       res.locals.isOwnerLocals = true;
       res.locals.isSittrLocals = false;

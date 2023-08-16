@@ -1,18 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 body {
   padding: 50px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   background: linear-gradient(80deg, orange, rgb(232, 235, 219));
   height: 100vh;
 }
-
-nav {
-  margin-bottom: 20px
-}
-
-;
-
 
 a {
   color: #00b7ff;
@@ -22,8 +15,21 @@ h1 {
   color: 15px;
 }
 
-
 /* LAYOUT PAGE*/
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0px;
+  margin-bottom: 20px;
+}
+
+.divUserName {
+ 
+}
 
 footer {
   position: absolute;
@@ -36,8 +42,6 @@ footer {
 
 #logoImg {
   width: 100%;
-
-
 }
 
 .indexBox {
@@ -108,7 +112,6 @@ footer {
   margin-top: 20px;
   margin-bottom: 10px;
 }
-
 
 /* PET LIST PAGE */
 
@@ -209,7 +212,5 @@ footer {
   margin-top: 20px;
   margin-bottom: 10px;
 }
-
-
 
 /* JOB-LIST SITTR PAGE */

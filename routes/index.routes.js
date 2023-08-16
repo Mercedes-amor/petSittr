@@ -28,16 +28,19 @@ router.post("/", async (req, res, next) => {
     const isPasswordCorrect = await bcrypt.compare(password, foundUser.password)
 
     if (foundUser.email === email && isPasswordCorrect === true) {
+      // console.log(foundUser.username)
       //! crear una sesion activa del usuario
       req.session.user = {
         _id: foundUser._id,
-        userType: foundUser.userType
+        userType: foundUser.userType,
+        userName: foundUser.username
+        
       }
       //! guardamos en la sesion informacion del usuario que no deberia cambiar
       //! el metodo .save() se invoca para esperar que se crea la sesion antes de hacer lo siguiente
       
 
-      //1 houre sessions
+      //1 hour sessions
       if(RemeberMe === undefined) {
         req.session.cookie.maxAge = 1 * 60 * 60 * 1000
       }
