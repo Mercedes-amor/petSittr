@@ -190,9 +190,11 @@ router.get("/accept-job/:jobId", async (req, res, nest) => {
 //GET "/sittr/job-list-accepted"
 router.get("/job-list-accepted", async (req, res, next) => {
   try {
-    const jobsList = await Job.find({ sittr: req.session.user._id }).populate(
+    let jobsList = await Job.find({ sittr: req.session.user._id }).populate(
       "pet"
     );
+
+    jobsList= dateFixer(jobsList)
     res.render("sittr/joblistaccepted.hbs", {
       jobsList,
     });

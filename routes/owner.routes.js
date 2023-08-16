@@ -4,6 +4,8 @@ const User = require("../models/User.model.js");
 const Pet = require("../models/Pet.model.js");
 const Job = require("../models/Job.model.js");
 
+const dateFixer = require("../utils/jobDateFixer.js");
+
 const uploader = require("../middlewares/cloudinary.middlewares.js");
 
 // GET "/owner/petlist" => Enseñar vista de mascotas
@@ -31,7 +33,10 @@ router.get("/petlist", async (req, res, next) => {
 
 // GET "/owner/addPet" => Enseñar vista para añadir mascota
 router.get("/add-pet", (req, res, next) => {
-  res.render("owner/addpet.hbs");
+  const isSmall = true;
+  res.render("owner/addpet.hbs", {
+    isSmall
+  });
 });
 
 // POST "/owner/addPet" => añade mascota a db
@@ -186,13 +191,15 @@ let petprofilePic = "";
   }
 
 
-
+ const petToEdit = await Pet.findById(req.params.petId);
 
 
 
     // console.log(req.session.user._id)
     if (name === "" || animalType === "" || size === "") {
-      res.status(400).render("owner/editpet.hbs", {
+      res.status(400).render("owner/editpet.hbs", {petToEdit,
+        // res.status(400).redirect(`/owner/edit-pet/${req.params.petId}`, {
+       
         errorMessage: "name, animal Type,size, fields are required",
               name,
       animalType,
@@ -271,7 +278,7 @@ router.post("/add-job", async (req, res, next) => {
       new Date(endDate) < new Date()
     ) {
       const ownerPets = await Pet.find({ owner: req.session.user._id });
-      res.status(400).render("owner/jobadd.hbs", {
+      res.status(400).render("owner/jobadd.hbs", {pet, city, startDate, endDate, comment,
         errorMessage:
           "pet, city and dates are fields are required  start date can't be greater than end date, date can´tbe longer than today",
         ownerPets,
@@ -299,16 +306,10 @@ router.get("/joblist", async (req, res, next) => {
       .sort({ status: -1 })
       .populate("pet sittr");
 
-    let allOwnerJobsDatesFix = JSON.parse(JSON.stringify(ownerJobs));
 
-    allOwnerJobsDatesFix.forEach((job) => {
-      const formatedStartDate = new Date(job.startDate);
-      job.startDate = formatedStartDate.toISOString().split("T")[0];
-      const formatedEndDate = new Date(job.endDate);
-      job.endDate = formatedEndDate.toISOString().split("T")[0];
-    });
+    ownerJobs= dateFixer(ownerJobs)
 
-    ownerJobs = allOwnerJobsDatesFix;
+    
 
     res.render("owner/joblist.hbs", {
       ownerJobs,
@@ -355,11 +356,12 @@ router.get("/edit-job/:jobId", async (req, res, next) => {
         endDateForHTML,
         ownerPets,
       });
-      console.log("jobToEdit", jobToEdit);
+      // console.log("jobToEdit", jobToEdit);
     } else {
-      const ownerJobs = await Job.find({
+      let ownerJobs = await Job.find({
         owner: req.session.user._id,
       }).populate("pet");
+      ownerJobs= dateFixer(ownerJobs)
       res.status(400).render("owner/joblist.hbs", {
         ownerJobs,
         errorMessage2: "Can't modify a executing/concluded job",
@@ -372,14 +374,38 @@ router.get("/edit-job/:jobId", async (req, res, next) => {
 router.post("/edit-job/:jobId", async (req, res, next) => {
   const { pet, city, startDate, endDate, comment } = req.body;
   // console.log(req.session.user._id)
-  if (pet === null || city === "" || startDate === "" || endDate === "") {
-    res.status(400).render("owner/jobedit.hbs", {
-      errorMessage: "pet, city and dates are fields required",
-    });
-    return;
-  }
+
   try {
-    const jobToUpdate = await Job.findById(req.params.jobId);
+    const jobToEdit = await Job.findById(req.params.jobId);
+    if (pet === null || city === "" || startDate === "" || endDate === "" ||
+    startDate >= endDate ||
+    new Date(startDate) < new Date() ||
+    new Date(endDate) < new Date()) {
+
+
+
+      const startDateForHTML = jobToEdit.startDate.toISOString().split("T")[0];
+      const endDateForHTML = jobToEdit.endDate.toISOString().split("T")[0];
+
+      const ownerPets = await Pet.find({
+        owner: req.session.user._id,
+      }).populate("owner");
+
+
+
+
+
+
+
+
+
+      
+      res.status(400).render("owner/jobedit.hbs", {jobToEdit,  startDateForHTML,
+        endDateForHTML,ownerPets,
+        errorMessage: "pet, city and dates are fields required date can't be less than today, start date can't be greater than today",
+      });
+      return;
+    }
     if (jobToUpdate.status === "pending") {
       await Job.findByIdAndUpdate(req.params.jobId, {
         pet,
