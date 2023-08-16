@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../models/User.model.js")
+const bcrypt = require("bcryptjs")
 
 const { isLoggedIn, isOwner, isSittr } = require("../middlewares/roles.middlewares.js")
 /*router.use(isLoggedIn)*/
@@ -24,7 +25,9 @@ router.post("/", async (req, res, next) => {
       })
       return
     }
-    if (foundUser.email === email && foundUser.password === password) {
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser.password)
+
+    if (foundUser.email === email && isPasswordCorrect === true) {
       //! crear una sesion activa del usuario
       req.session.user = {
         _id: foundUser._id,
