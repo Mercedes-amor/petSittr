@@ -13,48 +13,72 @@
           class="form-control"
           type="file"
           name="picture"
-          value="https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996"
+          value="{{this.picture}}"
         />
       </div>
       <div class="mb-3">
 
         <label for="name">Name</label>
-        <input class="form-control" type="text" name="name" />
+        <input class="form-control" type="text" name="name" value="{{this.name}}"/>
 
       </div>
       <div class="mb-3">
         <label for="animalType">Choose animal type:</label>
         <br />
         <select class="form-select" name="animalType">
-          <option value="dog">Dog</option>
-          <option value="cat">Cat</option>
+
+   {{#if isDog}}
+            <option value="dog" selected>Dog</option>
+            <option value="cat">Cat</option>
+          {{else}}
+            <option value="dog">Dog</option>
+            <option value="cat" selected>Cat</option>
+          {{/if}}
+
         </select>
       </div>
       <div class="mb-3">
 
         <label for="race">Race:</label>
-        <input class="form-control" type="text" name="race" />
+        <input class="form-control" type="text" name="race"  value="{{this.race}}"/>
       </div>
       <div class="mb-3">
         <label for="size">Choose animal size:</label>
         <br />
         <select class="form-select" name="size">
-          <option value="small">Small</option>
-          <option value="medium">Medium</option>
-          <option value="big">Big</option>
+
+
+    {{#if isSmall}}
+            <option value="small" selected>Small</option>
+            <option value="medium">Medium</option>
+            <option value="big">Big</option>
+          {{/if}}
+          {{#if isMedium}}
+            <option value="small">Small</option>
+            <option value="medium" selected>Medium</option>
+            <option value="big">Big</option>
+          {{/if}}
+          {{#if isBig}}
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="big" selected>Big</option>
+          {{/if}}
+
+
+
         </select>
       </div>
 
       <div class="mb-3">
         <label for="dateOfBirth">Date Of Birth:</label>
-        <input class="form-control" type="date" name="dateOfBirth" />
+        <input class="form-control" type="date" name="dateOfBirth" value="{{this.dateOfBirth}}" />
 
       </div>
 
       <div>
         <label for="comment">comment</label>
         <br>
-        <textarea name="comment" rows="5" cols="50" class="form-control" placeholder="Leave a comment here"></textarea>
+        <textarea name="comment" rows="5" cols="50" class="form-control" placeholder="Leave a comment here">{{this.comment}}</textarea>
 
       </div>
       <div class="formPetJobContainerButtons">

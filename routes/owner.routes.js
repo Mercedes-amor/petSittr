@@ -37,21 +37,57 @@ router.get("/add-pet", (req, res, next) => {
 // POST "/owner/addPet" => añade mascota a db
 router.post("/add-pet", uploader.single("picture"), async (req, res, next) => {
   const { name, animalType, race, size, dateOfBirth, comment } = req.body;
+  let petprofilePic = "";
+  if (req.file === undefined) {
+    petprofilePic =
+      "https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996";
+  } else {
+    petprofilePic = req.file.path;
+  }
+  let isDog = false;
+  let isSmall = false;
+  let isMedium = false;
+  let isBig = false;
+  if (animalType === "dog") {
+    //     console.log("DOGGY")
+    isDog = true;
+  } else {
+    isDog = false;
+  }
+  if (size === "small") {
+    isSmall = true;
+  } else if (size === "medium") {
+    isMedium = true;
+  } else if (size === "big") {
+    isBig = true;
+  }
+
   // console.log(req.session.user._id)
   if (name === "" || animalType === "" || size === "") {
     res.status(400).render("owner/addpet.hbs", {
       errorMessage: "name, animal Type,size, fields are required",
+      name,
+      animalType,
+      race,
+      size,
+      dateOfBirth,
+      comment,
+      picture: petprofilePic,
+      isDog,
+      isSmall,
+      isMedium,
+      isBig,
     });
     return;
   }
   try {
-    let petprofilePic = "";
-    if (req.file === undefined) {
-      petprofilePic =
-        "https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996";
-    } else {
-      petprofilePic = req.file.path;
-    }
+    // let petprofilePic = "";
+    // if (req.file === undefined) {
+    //   petprofilePic =
+    //     "https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996";
+    // } else {
+    //   petprofilePic = req.file.path;
+    // }
 
     console.log(petprofilePic);
     await Pet.create({
@@ -123,10 +159,52 @@ router.post(
   uploader.single("picture"),
   async (req, res, next) => {
     const { name, animalType, race, size, dateOfBirth, comment } = req.body;
+
+let petprofilePic = "";
+  if (req.file === undefined) {
+    petprofilePic =
+      "https://img.freepik.com/vector-premium/icono-perro-gato-estilo-plano-ilustracion-vector-cabeza-animal-sobre-fondo-blanco-aislado_740527-4.jpg?w=996";
+  } else {
+    petprofilePic = req.file.path;
+  }
+  let isDog = false;
+  let isSmall = false;
+  let isMedium = false;
+  let isBig = false;
+  if (animalType === "dog") {
+    //     console.log("DOGGY")
+    isDog = true;
+  } else {
+    isDog = false;
+  }
+  if (size === "small") {
+    isSmall = true;
+  } else if (size === "medium") {
+    isMedium = true;
+  } else if (size === "big") {
+    isBig = true;
+  }
+
+
+
+
+
+
     // console.log(req.session.user._id)
     if (name === "" || animalType === "" || size === "") {
       res.status(400).render("owner/editpet.hbs", {
         errorMessage: "name, animal Type,size, fields are required",
+              name,
+      animalType,
+      race,
+      size,
+      dateOfBirth,
+      comment,
+      picture: petprofilePic,
+      isDog,
+      isSmall,
+      isMedium,
+      isBig,
       });
       return;
     }
@@ -169,7 +247,7 @@ router.get("/delete-pet/:petId", async (req, res, next) => {
   res.redirect("/owner/petlist");
 });
 
-//     JOBS    //   
+//     JOBS    //
 
 //GET "owner/add-job" => Enseñar formulario de creación job
 router.get("/add-job", async (req, res, next) => {
@@ -218,36 +296,19 @@ router.post("/add-job", async (req, res, next) => {
 router.get("/joblist", async (req, res, next) => {
   try {
     let ownerJobs = await Job.find({ owner: req.session.user._id })
-    .sort({ status: -1 })
-    .populate(
-      "pet sittr"
-    );
-
-
+      .sort({ status: -1 })
+      .populate("pet sittr");
 
     let allOwnerJobsDatesFix = JSON.parse(JSON.stringify(ownerJobs));
 
     allOwnerJobsDatesFix.forEach((job) => {
-     
-        const formatedStartDate = new Date(job.startDate);
-        job.startDate = formatedStartDate.toISOString().split("T")[0];
-        const formatedEndDate = new Date(job.endDate);
-        job.endDate = formatedEndDate.toISOString().split("T")[0];
-
-
+      const formatedStartDate = new Date(job.startDate);
+      job.startDate = formatedStartDate.toISOString().split("T")[0];
+      const formatedEndDate = new Date(job.endDate);
+      job.endDate = formatedEndDate.toISOString().split("T")[0];
     });
 
     ownerJobs = allOwnerJobsDatesFix;
-
-
-
-
-
-
-
-
-
-
 
     res.render("owner/joblist.hbs", {
       ownerJobs,
