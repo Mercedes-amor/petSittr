@@ -9,13 +9,15 @@
       method="post"
       enctype="multipart/form-data"
     >
-
-      <img
+    <div class="divImg">
+           <img
         class="petListPic"
         src="{{petToEdit.picture}}"
         alt="picture of {{petToEdit.name}}"
         width="150px"
       />
+    </div>
+ 
       <div class="mb-3">
         <label for="picture">Your pet picture</label>
         <input class="form-control" type="file" name="picture" />

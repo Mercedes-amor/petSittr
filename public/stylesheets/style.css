@@ -22,7 +22,6 @@ nav {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
   margin-bottom: 20px;
 }
 
@@ -31,7 +30,7 @@ nav {
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: 40px;
@@ -212,4 +211,57 @@ footer {
   margin-bottom: 10px;
 }
 
+.divImg {
+  display: flex;
+  justify-content: center;
+}
 
+
+/* MEDIA QUERYS */
+
+@media (max-width: 700px) {
+
+  body {
+    padding: 15px;
+  }
+
+  nav {
+    width: 98vw;
+  }
+
+  .indexBox {
+
+    flex-direction: column;
+    margin-top: 100px;
+  }
+
+  footer {
+    display: none;
+  }
+
+  .logoDiv {
+
+    width: 300px;
+  }
+
+  .formSignUpContainer {
+    width: 85vw;
+  }
+
+  .formPetJobContainer {
+    width: 85vw;
+  }
+
+  .subCardBody {
+    flex-direction: column;
+  }
+
+  .ownerJobListButtons {
+    flex-direction: row;
+  }
+
+  .cardJob {
+    width: 85vw;
+    align-items: center
+  }
+}
