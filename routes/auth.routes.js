@@ -76,6 +76,7 @@ router.post("/", async (req, res, next) => {
     req.session.user = {
       _id: newUser._id,
       userType: newUser.userType,
+      userName: newUser.username,
     };
     //Grabamos la sesión y forzamos su guardado y redirige a página según role usuario
     req.session.save(() => {
