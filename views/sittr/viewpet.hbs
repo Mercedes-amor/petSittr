@@ -1,9 +1,17 @@
-<h3>Name: {{petToView.name}}</h2>
-<img src="{{petToView.picture}}" alt="picture of {{petToView.name}}" width="150px" >
-  <p>Animal type: {{petToView.animalType}}</p>
-  <p>Race: {{petToView.race}}</p>
-  <p>Size: {{petToView.size}}</p>
-  <p>Date of birth: {{petToView.dateOfBirth}}</p>
-  <p>Comement: {{petToView.comment}}</p>
+<div class="containerPetCard">
+  <div class="PetCard">
+<div class="innerPetCard">
+    <h3><b>{{petToView.name}}</b></h2>
+  <img class="petListPic" src="{{petToView.picture}}" alt="picture of {{petToView.name}}" width="150px" >
+    <p>Animal type: <b>{{petToView.animalType}}</b></p>
+    <p>Race: <b>{{petToView.race}}</b></p>
+    <p>Size: <b>{{petToView.size}}</b></p>
+    <p>Date of birth: <b>{{dateOfBirthForHTML}}</b></p>
+    <p>Comment: <b>{{petToView.comment}}</b></p>
 
-  <a href="javascript:history.back()">Go Back</a>
+    <a href="javascript:history.back()"><button class="btn btn-outline-info">Go Back</button></a>
+</div>
+  
+
+</div>
+</div>

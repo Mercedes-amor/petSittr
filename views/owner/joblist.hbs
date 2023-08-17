@@ -34,6 +34,7 @@
 
           <p>Sittr: <b>{{this.sittr.username}}</b></p>
         </div>
+        {{#if this.isSelected}}
         <div class="ownerJobListButtons">
           <a href="/owner/edit-job/{{this._id}}">
             <button class="btn btn-primary">Modify Job</button></a>
@@ -41,7 +42,7 @@
               class="btn btn-danger"
             > Delete Job</button></a>
         </div>
-
+        {{/if}}
       </div>
 
     </div>

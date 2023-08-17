@@ -177,8 +177,14 @@ router.post("/joblist", async (req, res, next) => {
 router.get("/view-pet/:petId", async (req, res, next) => {
   try {
     const petToView = await Pet.findById(req.params.petId);
+    let dateOfBirthForHTML=""
+    if (petToView.dateOfBirth !== null){
+        dateOfBirthForHTML = petToView.dateOfBirth.toISOString().split("T")[0];  
+    }
+
     res.render("sittr/viewpet.hbs", {
       petToView,
+      dateOfBirthForHTML
     });
   } catch (error) {
     next(error);

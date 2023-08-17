@@ -318,6 +318,11 @@ router.get("/joblist", async (req, res, next) => {
       .populate("pet sittr");
     //Usamos dateFixer para arreglar visualización fechas en html
     ownerJobs = dateFixer(ownerJobs);
+    ownerJobs.forEach((eachJob) => {
+      if (eachJob.status === "pending") {
+        eachJob.isSelected = true;
+      }
+    });
     res.render("owner/joblist.hbs", {
       ownerJobs,
     });
