@@ -2,8 +2,6 @@
 
   <h3 class="PetTitle">Add a new pet </h3>
 
-
-
   <div class="formPetJobContainer">
     <form action="/owner/add-pet" method="post" enctype="multipart/form-data">
 
@@ -19,7 +17,12 @@
       <div class="mb-3">
 
         <label for="name">Name</label>
-        <input class="form-control" type="text" name="name" value="{{this.name}}"/>
+        <input
+          class="form-control"
+          type="text"
+          name="name"
+          value="{{this.name}}"
+        />
 
       </div>
       <div class="mb-3">
@@ -27,7 +30,7 @@
         <br />
         <select class="form-select" name="animalType">
 
-   {{#if isDog}}
+          {{#if isDog}}
             <option value="dog" selected>Dog</option>
             <option value="cat">Cat</option>
           {{else}}
@@ -40,15 +43,19 @@
       <div class="mb-3">
 
         <label for="race">Race:</label>
-        <input class="form-control" type="text" name="race"  value="{{this.race}}"/>
+        <input
+          class="form-control"
+          type="text"
+          name="race"
+          value="{{this.race}}"
+        />
       </div>
       <div class="mb-3">
         <label for="size">Choose animal size:</label>
         <br />
         <select class="form-select" name="size">
 
-
-    {{#if isSmall}}
+          {{#if isSmall}}
             <option value="small" selected>Small</option>
             <option value="medium">Medium</option>
             <option value="big">Big</option>
@@ -64,37 +71,46 @@
             <option value="big" selected>Big</option>
           {{/if}}
 
-
-
         </select>
       </div>
 
       <div class="mb-3">
         <label for="dateOfBirth">Date Of Birth:</label>
-        <input class="form-control" type="date" name="dateOfBirth" value="{{this.dateOfBirth}}" />
+        <input
+          class="form-control"
+          type="date"
+          name="dateOfBirth"
+          value="{{this.dateOfBirth}}"
+        />
 
       </div>
 
       <div>
         <label for="comment">comment</label>
-        <br>
-        <textarea name="comment" rows="5" cols="50" class="form-control" placeholder="Leave a comment here">{{this.comment}}</textarea>
+        <br />
+        <textarea
+          name="comment"
+          rows="5"
+          cols="50"
+          class="form-control"
+          placeholder="Leave a comment here"
+        >{{this.comment}}</textarea>
 
       </div>
       <div class="formPetJobContainerButtons">
         <button class="btn btn-primary">Add</button>
-        <a href="/owner/petlist"><button class="btn btn-outline-info">Cancel</button></a>
-
+        <a href="/owner/petlist"><button
+            class="btn btn-outline-info"
+          >Cancel</button></a>
 
       </div>
-        {{#if this.errorMessage}}
-          <div class="alert alert-danger" role="alert">
-            {{this.errorMessage}}
-          </div>
-           {{/if}}
-        
+      {{#if this.errorMessage}}
+        <div class="alert alert-danger" role="alert">
+          {{this.errorMessage}}
+        </div>
+      {{/if}}
+
     </form>
 
- 
-</div>
+  </div>
 </div>

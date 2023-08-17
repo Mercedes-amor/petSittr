@@ -1,11 +1,7 @@
 <div class="indexBox">
   <div class="logoDiv">
     <h1>PETSITTR</h1>
-    <img
-      id="logoImg"
-      src="/images/logo.png"
-      alt="log CatDog"
-    />
+    <img id="logoImg" src="/images/logo.png" alt="log CatDog" />
     <h3>Happy pets, peacefull owners</h3>
 
   </div>
@@ -22,28 +18,28 @@
           <input class="form-control" type="email" name="email" />
         </div>
 
-
         <div class="mb-3">
           <label class="form-label" for="password">Password</label>
           <input class="form-control" type="password" name="password" />
         </div>
 
-
-
-
         <div class="mb-3 form-check">
           <label class="form-check-label" for="RemeberMe">Remeber Me</label>
-          <input class="form-check-input" type="checkbox" name="RemeberMe"
-            value="true" checked />
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="RemeberMe"
+            value="true"
+            checked
+          />
 
         </div>
-
 
         <button id="loginButton" class="btn btn-primary">Login</button>
 
         {{#if this.errorMessage}}
           <div class="alert alert-danger" role="alert">
-           {{this.errorMessage}}
+            {{this.errorMessage}}
           </div>
         {{/if}}
 
@@ -60,5 +56,4 @@
   </div>
 
 </div>
-      <footer>©Mercedes & Rishi 2023</footer>
-  
+<footer>©Mercedes & Rishi 2023</footer>

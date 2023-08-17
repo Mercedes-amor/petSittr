@@ -7,8 +7,13 @@
       <form action="/sittr/joblist" method="post">
         <div class="mb-3">
           <label for="city">city:</label>
-          <br>
-          <input class="form-control"  type="text" name="city" value="{{this.city}}" />
+          <br />
+          <input
+            class="form-control"
+            type="text"
+            name="city"
+            value="{{this.city}}"
+          />
         </div>
 
         <div class="mb-3">
@@ -17,32 +22,42 @@
           {{#if this.isDog}}
             <label for="dog">Dog</label>
             <input type="checkbox" name="animalType" value="dog" checked />
-            
+
           {{else}}
             <label for="dog">Dog</label>
             <input type="checkbox" name="animalType" value="dog" />
-            
+
           {{/if}}
           {{#if this.isCat}}
             <label for="cat">Cat</label>
-            <inputtype="checkbox" name="animalType" value="cat" checked />
+            <input type="checkbox" name="animalType" value="cat" checked />
           {{else}}
             <label for="cat">Cat</label>
-            <input  type="checkbox" name="animalType" value="cat" />
+            <input type="checkbox" name="animalType" value="cat" />
 
           {{/if}}
         </div>
 
         <div class="mb-3">
           <label for="startDate">Start date:</label>
-          <br>
-          <input class="form-control" type="date" name="startDate" value="{{this.startDate}}" />
+          <br />
+          <input
+            class="form-control"
+            type="date"
+            name="startDate"
+            value="{{this.startDate}}"
+          />
         </div>
 
         <div class="mb-3">
           <label for="endDate">End date:</label>
-          <br>
-          <input class="form-control"  type="date" name="endDate" value="{{this.endDate}}" />
+          <br />
+          <input
+            class="form-control"
+            type="date"
+            name="endDate"
+            value="{{this.endDate}}"
+          />
 
         </div>
 
@@ -51,14 +66,14 @@
         </div>
 
       </form>
-      <br>
+      <br />
       {{#if this.errorMessage}}
         <div class="alert alert-danger">{{this.errorMessage}}</div>
       {{/if}}
     </div>
   </div>
 
-<hr>
+  <hr />
   <div class="cardJobContainer">
     <h3>List Job</h3>
 

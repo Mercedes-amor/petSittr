@@ -10,16 +10,14 @@
 
           {{#each ownerPets}}
 
+            {{#if this.isSelected}}
+              <option value="{{this._id}}" selected>{{this.name}}</option>
 
-{{#if this.isSelected}}
-            <option value="{{this._id}}" selected>{{this.name}}</option>
+            {{else}}
 
-{{else}}
+              <option value="{{this._id}}">{{this.name}}</option>
 
-<option value="{{this._id}}">{{this.name}}</option>
-
-{{/if}}
-
+            {{/if}}
 
           {{/each}}
         </select>

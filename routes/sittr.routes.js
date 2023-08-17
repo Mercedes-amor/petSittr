@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const dateFixer = require("../utils/jobDateFixer.js");
-const User = require("../models/User.model.js");
+// const User = require("../models/User.model.js");
 const Pet = require("../models/Pet.model.js");
 const Job = require("../models/Job.model.js");
 
@@ -10,10 +10,7 @@ const Job = require("../models/Job.model.js");
 router.get("/joblist/", async (req, res, next) => {
   try {
     let jobsList = await Job.find({ status: "pending" }).populate("pet");
-
-
-    jobsList= dateFixer(jobsList)
-
+    jobsList = dateFixer(jobsList);
     res.render("sittr/joblist.hbs", {
       jobsList,
     });
@@ -27,18 +24,18 @@ router.post("/joblist", async (req, res, next) => {
   const { city, animalType, startDate, endDate } = req.body;
   let isCat = false;
   let isDog = false;
-  if (animalType!== undefined) {
-  if (animalType.length === 2) {
-    isCat = true;
-    isDog = true;
-  } else {
-    if (animalType === "dog") {
-      isDog = true;
-    }
-    if (animalType === "cat") {
+  if (animalType !== undefined) {
+    if (animalType.length === 2) {
       isCat = true;
+      isDog = true;
+    } else {
+      if (animalType === "dog") {
+        isDog = true;
+      }
+      if (animalType === "cat") {
+        isCat = true;
+      }
     }
-  }
   }
   // console.log (animalType)
   if (
@@ -51,10 +48,10 @@ router.post("/joblist", async (req, res, next) => {
     new Date(endDate) < new Date()
   ) {
     let jobsList = await Job.find({ status: "pending" }).populate("pet");
-    jobsList= dateFixer(jobsList)
+    jobsList = dateFixer(jobsList);
     res.status(400).render("sittr/joblist.hbs", {
       errorMessage:
-        "city,animal Type and dates  are fields are required , start date can't be greater than end date, date can´tbe longer than today",
+        "pet, city and dates are fields are required. Dates can't be before today",
       jobsList,
       city,
       animalType,
@@ -66,24 +63,30 @@ router.post("/joblist", async (req, res, next) => {
     return;
   }
   //  console.log (req.body)
-  //  console.log(animalType)
 
   try {
-    console.log(startDate);
+    //Hacemos 3 filtros para separar entre las diferentes opciones: Dog/Cat/Dog&Cat
     if (animalType.includes("dog") && animalType.includes("cat")) {
       let jobsList = await Job.find({
         city,
         status: "pending",
+        //Para aplicar el filtro como un rango entre las fechas inicio/fin indicadas
         $and: [
           { startDate: { $gte: startDate } },
           { endDate: { $lte: endDate } },
         ],
       }).populate("pet");
-      jobsList= dateFixer(jobsList)
+      jobsList = dateFixer(jobsList);
       res.render("sittr/joblist.hbs", {
         jobsList,
+        city,
+        animalType,
+        startDate,
+        endDate,
+        isDog,
+        isCat,
       });
-      console.log("both", jobsList[0].pet[0]);
+      // console.log("both", jobsList[0].pet[0]);
     } else if (animalType.includes("dog")) {
       let jobsList = await Job.find({
         city,
@@ -94,9 +97,10 @@ router.post("/joblist", async (req, res, next) => {
         ],
       }).populate("pet");
 
-      const jobListClone = JSON.parse(JSON.stringify(jobsList));
-
-      const onlyDogsJobList = jobListClone.filter((jobToFilter) => {
+      jobsList = JSON.parse(JSON.stringify(jobsList));
+      //Al seleccionar la opción de dog, filtramos el array excluyendo todos los
+      //jobs que tengan un cat
+      const onlyDogsJobList = jobsList.filter((jobToFilter) => {
         let isThereAnyCat = false;
         for (const petIs of jobToFilter.pet) {
           if (petIs.animalType === "cat") {
@@ -112,9 +116,10 @@ router.post("/joblist", async (req, res, next) => {
 
       jobsList = JSON.parse(JSON.stringify(onlyDogsJobList));
       console.log(onlyDogsJobList);
-      jobsList= dateFixer(jobsList)
+      jobsList = dateFixer(jobsList);
       res.render("sittr/joblist.hbs", {
-        jobsList, city,
+        jobsList,
+        city,
         animalType,
         startDate,
         endDate,
@@ -133,9 +138,10 @@ router.post("/joblist", async (req, res, next) => {
         ],
       }).populate("pet");
 
-      const jobListClone = JSON.parse(JSON.stringify(jobsList));
-
-      const onlyCatsJobList = jobListClone.filter((jobToFilter) => {
+      jobsList = JSON.parse(JSON.stringify(jobsList));
+      //Al seleccionar la opción de cat, filtramos el array excluyendo todos los
+      //jobs que tengan un dog
+      const onlyCatsJobList = jobsList.filter((jobToFilter) => {
         let isThereAnyDog = false;
         for (const petIs of jobToFilter.pet) {
           if (petIs.animalType === "dog") {
@@ -150,10 +156,16 @@ router.post("/joblist", async (req, res, next) => {
       });
 
       jobsList = JSON.parse(JSON.stringify(onlyCatsJobList));
-      console.log(onlyCatsJobList);
-      jobsList= dateFixer(jobsList)
+      // console.log(onlyCatsJobList);
+      jobsList = dateFixer(jobsList);
       res.render("sittr/joblist.hbs", {
         jobsList,
+        city,
+        animalType,
+        startDate,
+        endDate,
+        isDog,
+        isCat,
       });
     }
   } catch (error) {
@@ -194,7 +206,7 @@ router.get("/job-list-accepted", async (req, res, next) => {
       "pet"
     );
 
-    jobsList= dateFixer(jobsList)
+    jobsList = dateFixer(jobsList);
     res.render("sittr/joblistaccepted.hbs", {
       jobsList,
     });
